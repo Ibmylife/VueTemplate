@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<!-- jQuery文件 -->
+	<script type="text/javascript" src="../../plus/jquery-3.2.1.min.js"></script>
+
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="../../plus/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="../../plus/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="../../plus/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="../../plus/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+	<script src="../../plus/Highcharts-6.0.3/code/highcharts.js"></script>
+
+	<script src="../../plus/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+
+	<script src="../../plus/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+	<script src="../admin.js"></script>
+
+	<!-- admin.css -->
+	<link rel="stylesheet" href="../admin.css">
+
+	<link rel="stylesheet" href="../../plus/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<script type="text/javascript" src="../../plus/ckeditor/ckeditor.js"></script>
+
+	<style type="text/css">
+		#exampleInputEmail1::-webkit-input-placeholder {
+	          /* placeholder颜色  */
+	         color: #999;
+	         /* placeholder字体大小  */
+	         font-size: 20px;
+	         /* placeholder位置  */
+	         text-align: left;
+	     }
+	</style>
+	
+</head>
+<body>
+	<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<h3 class="admin_page_title">添加专题</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-10">
+					<div class="row">
+						<div class="col-lg-12" style="margin-left: 0.6%;">
+							
+							  <div class="form-group" style="line-height: 0;">
+							    <label for="exampleInputPassword1"></label>
+							    <input style="height: 45px; font-size: 22px;" type="text" class="form-control" id="exampleInputPassword1" placeholder="请再此输入专题标题">
+							  </div>
+							   <div class="form-group">
+							    <textarea style="resize: none;" rows="8" type="email" class="form-control" id="exampleInputEmail1" placeholder="请在此输入专题介绍内容"></textarea>
+							  </div>
+							  <div style="width: 150px;height: 200px;background-color: #FFF">
+							  	<div style="width:100%;height:20px;padding-left: 17%;padding-top: 30%;color:#8a8a8c;font-weight: bold;font-size: 17px;">添加主题图片</div>
+							  	<img src="../pic/addPic.jpg" style="width: 50px;margin-left: 33%;margin-top: 30%">
+							  </div>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-lg-12">
+							<h3 class="admin_page_title">添加文章</h3>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="form-group" style="line-height: 0;">
+							    <label for="exampleInputPassword1"></label>
+									<div class="row">
+										<div class="col-lg-11" style="padding-left: 0px;padding-right: 0px;">
+											 <input style="height: 45px; font-size: 22px;" type="text" class="form-control"  placeholder="请输入本站文章链接">
+										</div>
+										<div class="col-lg-1" style="padding-left: 0px;padding-right: 0px;">
+											 <button class="btn btn-block add_special_button" style="height: 44.5px;">删除</button>
+										</div>
+									</div>
+							   
+							   
+							  </div>
+						</div>
+					</div>
+					<button class="btn btn-block add_special_button">添加新文章</button>
+				</div>
+				
+				<div class="col-lg-2">
+					<div class="col-lg-12">
+						<div class="admin_second" style="margin-top: 2%;">
+							<div class="admin_modle-title">发布</div>
+							<div class="admin_modle_content">
+								<div class="row">
+									<button class="btn-myself" style="width:70px;height:30px; color: #555;margin-left: 0px;">
+										保存草稿
+									</button>
+									<button class="btn-myself" style="width:50px;height:30px; color: #555;margin-left: 0px;float: right;margin-right: 10px;">
+										预览
+									</button>
+								</div>
+								<!--草稿.递交审核-->
+								<!--公开.密码.私密,同时可以设置置顶-->
+								<!--定时发送功能-->
+								<div class="row" style="margin-top: 10px;">
+									<p style="font-style: '微软雅黑'"><i class="fa fa-laptop left_icon_font"></i>状态:<span style="font-weight: bold;">编辑</span>&nbsp;&nbsp;<a href="JavaScript:void(0)">编辑</a></p>
+									<p style="font-style: '微软雅黑'"><i class="fa fa-eye left_icon_font"></i>公开度:<span style="font-weight: bold;">公开</span>&nbsp;&nbsp;<a href="JavaScript:void(0)"></i>编辑</a></p>
+									<p style="font-style: '微软雅黑'"><i class="fa fa-clock-o left_icon_font"></i><span style="font-weight: bold;">立即发布</span>&nbsp;&nbsp;<a href="JavaScript:void(0)">编辑</a></p>
+								</div>
+								<div class="row" style="margin-top: 10px;">
+									<button class="btn btn-info">发布</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					
+					<div class="col-lg-12" style="margin-top: 15px;">
+						<div class="admin_second" style="margin-top: 2%;">
+							<div class="admin_modle-title">文章类型</div>
+							<div class="admin_modle_content">
+								<div class="female">
+								    <input type="radio" id="female" name="sex" />
+								    <label for="female">标准</label>
+								</div>
+								<div class="male">                
+								    <input type="radio" id="male" name="sex" />
+								    <label for="male">图片</label>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+	</div>
+</body>
+</html>

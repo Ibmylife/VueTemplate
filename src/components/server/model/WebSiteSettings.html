@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<!-- jQuery文件 -->
+	<script type="text/javascript" src="../../plus/jquery-3.2.1.min.js"></script>
+
+	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="../../plus/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="../../plus/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="../../plus/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="../../plus/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+	<script src="../../plus/Highcharts-6.0.3/code/highcharts.js"></script>
+
+	<script src="../../plus/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+
+	<script src="../../plus/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+	<script src="../admin.js"></script>
+
+	<!-- admin.css -->
+	<link rel="stylesheet" href="../admin.css">
+
+	<link rel="stylesheet" href="../../plus/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<script type="text/javascript" src="../../plus/ckeditor/ckeditor.js"></script>
+
+	
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-4">
+				<h3 class="admin_page_title">整体设置</h3>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					站点名称
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" style="width: 100%" placeholder="该内容将显示在网站首页的中间窗口处的上方" />
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					站点标语
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" style="width: 100%" placeholder="该内容将显示在网站首页的中间窗口处的下方" />
+			</div>
+		</div>
+
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					邮箱服务器
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" style="width: 100%" placeholder="该邮箱为向外发送邮件时使用的邮箱，且对应主题密码发到该邮箱的内容将被发布" />
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					用户名
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" style="width: 100%" placeholder="邮箱的用户名" />
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					密码
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="password" style="width: 100%" placeholder="邮箱的密码" />
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					主题密码
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="password" style="width: 100%" placeholder="即需要通过邮件内容发布信息时需要在主题区填写主题密码。形式：密码;标题" />
+			</div>
+		</div>
+		
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					用户注册规则
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div class="admin_modle_content" style="padding-left: 0px;">
+
+
+						<div class="male">                
+						    <input type="radio" id="none" name="sex" />
+						    <label for="none">不允许任何人注册，仅能通过站长添加用户</label>
+						</div>
+						<br>
+						<div class="female">
+						    <input type="radio" id="some" name="sex"  />
+						    <label for="some">开放任何人注册，但不允许注册游客以外的权限</label>
+						</div>
+						<br>
+						<div class="male">                
+						    <input type="radio" id="all" name="sex" />
+						    <label for="all">开放任何人注册，游客以外的权限需要对应的邀请码</label>
+						</div>
+						<br>
+						<div class="male">                
+						    <input type="radio" id="allCondition" name="sex" />
+						    <label for="allCondition">任何人都需要对应的邀请码来注册</label>
+						</div>
+					</div>
+			</div>
+		</div>
+
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					注册邀请码生成器
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div  style="width: 115px;float: left;">
+					<select class="form-control">
+					  <option>选择权限</option>
+					  <option>权限1</option>
+					  <option>权限2</option>
+					  <option>权限3</option>
+					  <option>权限4</option>
+					</select>
+				</div>
+				<div  style="float: left;margin-left: 10px;">
+					<input type="text" placeholder="生成数量" />
+				</div>
+				<div  style="float: left;margin-left: 10px;">
+					<button class="btn" style="height: 28px;line-height: 1">生成</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<textarea style="width: 100%" readonly="true" rows="4"></textarea>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					站点语言
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div  style="width: 115px;float: left;">
+					<select class="form-control">
+					  <option>简体中文</option>
+					  <option>简体英语</option>
+					  <option>繁体英语</option>
+					  <option>外国英语</option>
+					  <option>黑逼大语</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					计时操作
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<button class="btn" style="height: 28px;line-height: 1">清空已运行时间</button>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					倒计时设置
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" placeholder="倒计时目的" style="float: left;" />
+				<div  style="float: left;margin-left: 10px;">
+					<input style="width:200px;" size="16" type="text"  readonly class="form_datetime datetimeStart" placeholder="目的日期">
+				</div>
+				<button class="btn" style="height: 28px;line-height: 1;margin-left:10px;">确定</button>
+			</div>
+		</div>
+
+
+
+		<br /><br />
+		<div class="row">
+			<div class="col-lg-4">
+				<h3 class="admin_page_title">文章编写设置</h3>
+			</div>
+		</div>
+		<br />
+
+		<br>
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					默认文章分类
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div  style="width: 115px;float: left;">
+					<select class="form-control">
+					  <option>一类</option>
+					  <option>二类</option>
+					  <option>三类</option>
+					  <option>四类</option>
+					  <option>五类</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<br>
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					默认文章形式
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div  style="width: 115px;float: left;">
+					<select class="form-control">
+					  <option>一类</option>
+					  <option>二类</option>
+					  <option>三类</option>
+					  <option>四类</option>
+					  <option>五类</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+
+		<br /><br />
+		<div class="row">
+			<div class="col-lg-4">
+				<h3 class="admin_page_title">阅读设置</h3>
+			</div>
+		</div>
+		<br />
+		
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					主页显示推荐文章数量
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" style="width: 100%" placeholder="主页的文章数量" />
+			</div>
+		</div>
+
+		<br /><br />
+		<div class="row">
+			<div class="col-lg-4">
+				<h3 class="admin_page_title">评论设置</h3>
+			</div>
+		</div>
+		<br />
+
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					新发布文章默认是否允许评论
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<select class="form-control" style="margin-top: 0;width:100px;">
+				  <option>是</option>
+				  <option>否</option>
+				</select>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					评论是否需要审核
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<select class="form-control" style="margin-top: 0;width:100px;">
+				  <option>是</option>
+				  <option>否</option>
+				</select>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					评论是否需要注册
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<select class="form-control" style="margin-top: 0;width:100px;">
+				  <option>是</option>
+				  <option>否</option>
+				</select>
+			</div>
+		</div>
+
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					评论内容及显示设置
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	自动关闭发布大于
+						<input type="text" style="width: 50px;">
+				    	天的评论功能
+				  </label>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	评论最多嵌套
+						<input type="text" style="width: 50px;">
+				    	层，不选中则不开放评论的回复功能
+				  </label>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	评论下方每页显示
+						<input type="text" style="width: 50px;">
+				    	条评论
+				  </label>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	<sapn style="float: left;" >最新的评论在</sapn>
+				    	<select  class="form-control" style="margin-top: 0;width:100px;float: left;margin-left: 10px;">
+						  <option>最上方</option>
+						  <option>最下方</option>
+						</select>
+				  </label>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-7">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	<sapn style="float: left;" >当评论中含有超链接的时候，评论需要审核，只有在上方设置评论不需要审核时才有效</sapn>
+				  </label>
+				</div>
+			</div>
+		</div>
+
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					评论关键字审核
+				</h4>
+			</div>
+			<div class="col-lg-7">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	<sapn style="float: left;" >当评论中含有以下关键字时，需要审核，只有在上方设置评论不需要审核时才有效，不同的词请用逗号分隔</sapn>
+				  </label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<textarea style="width: 100%" rows="4"></textarea>
+			</div>
+		</div>
+
+		<br />
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					评论关键字屏蔽
+				</h4>
+			</div>
+			<div class="col-lg-7">
+				<div class="checkbox">
+				  <label>
+				    <input type="checkbox" value="">
+				    	<sapn style="float: left;" >当评论中含有以下关键字时，直接放入回收站，不同的词请用逗号分隔</sapn>
+				  </label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-2" style="padding-left: 20px;">
+				<h4 class="admin_page_title" style="font-weight: bold;margin-top: 0px;">
+					
+				</h4>
+			</div>
+			<div class="col-lg-4">
+				<textarea style="width: 100%" rows="4"></textarea>
+			</div>
+		</div>
+
+		<br><br>
+		<button class="btn btn-info" style="margin-left: 30px;">保存修改</button>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</div>
+</body>
+</html>
