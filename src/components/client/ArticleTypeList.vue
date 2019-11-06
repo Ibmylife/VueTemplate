@@ -15,7 +15,7 @@
             <Col span="2"></Col>
             <Col span="4">
               <Icon type="ios-time-outline"/>
-              {{article.updateTimeStr}}
+              {{article.updateTime}}
             </Col>
             <Col span="2"></Col>
             <Col span="3">

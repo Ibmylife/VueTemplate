@@ -20,7 +20,7 @@
     <br/>
     <Table stripe :data="tableData3" :columns="tableColumns3">
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="info" size="small" @click="showArticle(index)">详情</Button>
+        <!--        <Button type="info" size="small" @click="showArticle(index)">详情</Button>-->
         <Button type="primary" size="small" @click="editorArticle(index)">编辑</Button>
         <Button type="error" size="small" @click="deleteArticle(index)">删除</Button>
       </template>
@@ -31,35 +31,64 @@
               @on-change="changePage"></Page>
       </div>
     </div>
+    <br/>
+    <Row>
+      <Row>
+        <Modal v-model="userFlag" draggable scrollable title="详情" @on-ok="onOk">
+          <Form ref="formInline" :model="user" :label-width="80">
+            <FormItem label="主键" prop="name">
+              <Input v-model="user.userId" :disabled="true" placeholder="Enter your name"></Input>
+            </FormItem>
+            <FormItem label="名称" prop="name">
+              <Input v-model="user.userName" :disabled="true" placeholder="Enter your name"></Input>
+            </FormItem>
+            <FormItem label="密码" prop="name">
+              <Input v-model="user.userPassword" :disabled="true" placeholder="Enter your name"></Input>
+            </FormItem>
+            <FormItem label="创建时间" prop="name">
+              <DatePicker type="datetime" placeholder="Select date" :disabled="true"
+                          v-model="user.createTime"></DatePicker>
+            </FormItem>
+            <FormItem label="修改时间" prop="name">
+              <DatePicker type="datetime" placeholder="Select date" :disabled="true"
+                          v-model="user.updateTime"></DatePicker>
+            </FormItem>
+            <FormItem label="邮箱" prop="name">
+              <Input type="email" placeholder="Select date"
+                     v-model="user.userEmail"></Input>
+            </FormItem>
+            <FormItem label="是否禁用">
+              <i-switch v-model="user.userFlag" size="large" @on-change="change">
+                <span slot="open">On</span>
+                <span slot="close">Off</span>
+              </i-switch>
+            </FormItem>
+          </Form>
+        </Modal>
+      </Row>
+    </Row>
   </div>
 </template>
 
 <script>
+  import Global from '../../Global'
+
   export default {
     name: "UserDetail",
+    inject: ['reload'],
     data() {
       return {
-        tableData3: [
-          {
-            firstTopic: 'JAVA5',
-            browerCount: '1',
-            likeCount: '2',
-            typeId: '23FAA',
-            createTime: '2019-2-03',
-            updateTime: '2019-2-05',
-            secondTopic: '阿发尽快发了房间',
-            userId: '123',
-            articleId: '123',
-            content: 'https://blog.csdn.net/xiangjai/article/details/7523100',
-          }
-        ],
+        tableData3: [],
         pages: {
-          pageNum: 0,
-          pageSize: 5,
+          pageNum: Global.commmPageNum,
+          pageSize: Global.commmPageSize,
           total: 0
         },
         dateStart: '',
         dateEnd: '',
+        userUrl: 'http://localhost:8080/user/',
+        userFlag: false,
+        user: {}
       }
     },
     computed: {
@@ -151,11 +180,7 @@
     },
     methods: {
       showTable: function (data) {
-        this.$ajax({
-          method: 'post',
-          url: '/rest/bolg-server/users/',
-          data: data
-        }).then((res) => {
+        this.$ajax.get(this.userUrl, {params: this.$qs.parse(data)}).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.object.message);
             return;
@@ -169,13 +194,29 @@
         });
       },
       showArticle: function (index) {
-
       },
       editorArticle: function (index) {
-
+        let user = this.tableData3[index];
+        this.user = user;
+        this.userFlag = true;
       },
       deleteArticle: function (index) {
-
+          let user = this.tableData3[index];
+          this.$ajax({
+            method: 'delete',
+            url: this.userUrl + user.userId,
+          }).then((res) => {
+            console.log(res);
+            if (!res.data.successFlag) {
+              this.$Message.error(res.data.message);
+              return;
+            }
+            this.$Message.success(res.data.message);
+            //重新加载信息
+            this.reload();
+          }).catch((err) => {
+            console.log(err);
+          });
       },
       searchTextChange: function () {
 
@@ -188,16 +229,22 @@
       },
       changePage: function (index) {
         this.pages.pageNum = index - 1;
-        let data = new window.FormData();
-        data.append("pageSize", this.pages.pageSize);
-        data.append("pageNum", this.pages.pageNum);
+        let data = {};
+        data["pageSize"] = this.pages.pageSize;
+        data["pageNum"] = this.pages.pageNum;
         this.showTables(data);
+      },
+      onOk: function () {
+        alert("ok")
+      },
+      change(status) {
+        this.$Message.info('开关状态：' + status);
       }
     },
     mounted: function () {
-      let data = new window.FormData();
-      data.append("pageSize", this.pages.pageSize);
-      data.append("pageNum", this.pages.pageNum);
+      let data = {};
+      data["pageSize"] = this.pages.pageSize;
+      data["pageNum"] = this.pages.pageNum;
       this.showTable(data);
     }
   }

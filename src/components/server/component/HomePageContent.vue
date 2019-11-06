@@ -3,7 +3,7 @@
     <!--基本数据图-->
     <Row>
       <Col span="24">
-        <div id="myChart" :style="{width: '1200px', height: '300px'}"></div>
+        <div ref="myChart" id="myChart" :style="{width: '1480px', height: '300px'}"></div>
       </Col>
     </Row>
     <br/>
@@ -69,6 +69,12 @@
 <script>
   export default {
     name: "HomePageContent",
+    created: function () {
+      // this.showChart();
+      // window.onresize = function () {
+      //   this.myChart.resize();
+      // }
+    },
     mounted: function () {
       this.showChart();
     },
@@ -395,13 +401,16 @@
             taskId: '17',
           }
         ],
-        loading: false
+        loading: false,
+        myChart: ''
       }
     },
     methods: {
       //统计图
       showChart: function () {
         let myChart = this.$echarts.init(document.getElementById('myChart'))
+        // let myChart = this.$echarts.init(this.$refs.mychart)
+        this.myChart=myChart;
         let option = {
           title: {
             text: '统计图'
@@ -433,7 +442,7 @@
           },
           series: this.series
         };
-        myChart.setOption(option);
+        this.myChart.setOption(option);
       },
       //表格
       show(index) {

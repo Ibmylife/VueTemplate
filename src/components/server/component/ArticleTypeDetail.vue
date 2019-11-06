@@ -2,13 +2,9 @@
   <div>
     <Divider>
       类型树形图
-      <!--{{user}}-->
-      <!--<Select v-model="user" filterable clearable :loading="loading" loading-text="请稍后" placeholder="root" size="small">-->
-      <!--<Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>-->
-      <!--</Select>-->
     </Divider>
     <Row>
-      <div id="myChart" :style="{width: '1200px', height: '300px'}" ref="mychart"></div>
+      <div id="myChart" :style="{width: '1480px', height: '300px'}" ref="mychart"></div>
     </Row>
     <Divider>类型详情表</Divider>
     <Row>
@@ -49,28 +45,28 @@
       <Modal v-model="typeModalFlag" draggable scrollable title="详情" @on-ok="onOk">
         <Form ref="formInline" :model="articleType" :label-width="80">
           <FormItem label="主键" prop="name">
-            <Input v-model="articleType.typeId" :disabled="editorFlag" placeholder="Enter your name"></Input>
+            <Input v-model="articleType.typeId" :disabled="true" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="类型名" prop="name">
             <Input v-model="articleType.typeName" :disabled="editorFlag" placeholder="Enter your name"></Input>
           </FormItem>
           <FormItem label="创建时间" prop="name">
-            <DatePicker type="datetime" placeholder="Select date" :disabled="editorFlag"
+            <DatePicker type="datetime" placeholder="Select date" :disabled="true"
                         v-model="articleType.createTime"></DatePicker>
           </FormItem>
           <FormItem label="修改时间" prop="name">
-            <DatePicker type="datetime" placeholder="Select date" :disabled="editorFlag"
+            <DatePicker type="datetime" placeholder="Select date" :disabled="true"
                         v-model="articleType.updateTime"></DatePicker>
           </FormItem>
           <FormItem label="父类型">
-            <Select v-model="articleType.parentId" :disabled="editorFlag">
+            <Select v-model="articleType.parentId" :disabled="true">
               <Option v-for="type in typeparent" v-if="type.typeId!=articleType.typeId" :value="type.typeId">
                 {{type.typeName}}
               </Option>
             </Select>
           </FormItem>
-          <FormItem label="用户名" prop="name">
-            <Input v-model="articleType.userId" placeholder="Enter your name" :disabled="editorFlag"></Input>
+          <FormItem label="用户名" prop="name" >
+            <Input v-model="articleType.userId" placeholder="Enter your name" :disabled="true"></Input>
           </FormItem>
           <!--看情况,现在不需要-->
           <!--<FormItem label="是否为根节点" prop="name">-->
@@ -95,13 +91,6 @@
               </Option>
             </Select>
           </FormItem>
-          <!--看情况,现在不需要-->
-          <!--<FormItem label="是否为根节点" prop="name">-->
-          <!--<i-switch v-model="articleType.rootFlag" size="large">-->
-          <!--<span slot="open">On</span>-->
-          <!--<span slot="close">Off</span>-->
-          <!--</i-switch>-->
-          <!--</FormItem>-->
         </Form>
       </Modal>
     </Row>
@@ -113,19 +102,11 @@
 
   export default {
     name: "ArticleTypeDetail",
+    inject: ['reload'],
     data() {
       return {
         user: {},
-        tableData3: [
-          {
-            typeId: '123',
-            typeName: '123',
-            createTime: '2018-07-03',
-            updateTime: '2018-07-03',
-            parentId: '123',
-            userId: '123',
-          }
-        ],
+        tableData3: [],
         loading: false,
         dateStart: '',
         dateEnd: '',
@@ -144,11 +125,15 @@
           userId: this.getUser().userId,
           typeName: '',
           parentId: '',
-          createTime: new Date(),
-          updateTime: new Date(),
+          createTime: '',
+          updateTime: '',
           rootFlag: false
         },
         typeAddModalFlag: false,
+        myChart: '',
+        articleTypeUrl: "http://localhost:8080/articlesTypes/",
+        articleTypeChartUrl: "http://localhost:8080/articlesTypes/articlestypechart/",
+        articleParentTypeUrl: "http://localhost:8080/articlesTypes/search/parents/",
       }
     }
     ,
@@ -172,60 +157,22 @@
         columns.push({
           title: '类型ID',
           key: 'typeId',
-          // sortable: true
         });
         columns.push({
           title: '类型名称',
           key: 'typeName',
-          // sortable: true
         });
         columns.push({
           title: '创建时间',
-          key: 'createTimeStr'
+          key: 'createTime'
         });
         columns.push({
           title: '修改时间',
-          key: 'updateTimeStr',
-          // sortable: true,
-          // filters: [
-          //   {
-          //     label: 'Greater than 25',
-          //     value: 1
-          //   },
-          //   {
-          //     label: 'Less than 25',
-          //     value: 2
-          //   }
-          // ],
-          // filterMultiple: false,
-          // filterMethod(value, row) {
-          //   if (value === 1) {
-          //     return row.age > 25;
-          //   } else if (value === 2) {
-          //     return row.age < 25;
-          //   }
-          // }
+          key: 'updateTime',
         });
         columns.push({
           title: '上一级类型',
           key: 'parentId',
-          // filters: [
-          //   {
-          //     label: 'New York',
-          //     value: 'New York'
-          //   },
-          //   {
-          //     label: 'London',
-          //     value: 'London'
-          //   },
-          //   {
-          //     label: 'Sydney',
-          //     value: 'Sydney'
-          //   }
-          // ],
-          // filterMethod(value, row) {
-          //   return row.address.indexOf(value) > -1;
-          // }
         });
         columns.push({
           title: '创建人',
@@ -242,16 +189,19 @@
     ,
     mounted: function () {
       this.user = this.getUser();
+      //图表
       this.showChart();
+      //显示表格
       this.showTables();
+      //增加和修改的上一级选项
       this.parentType();
     }
     ,
     methods: {
       addType: function () {
         this.$ajax({
-          method: 'put',
-          url: '/rest/bolg-server/savearticlestype',
+          method: 'post',
+          url: this.articleTypeUrl,
           data: this.$qs.stringify(this.articleTypeAdd),
         }).then((res) => {
           if (!res.data.successFlag) {
@@ -261,30 +211,41 @@
           this.articleTypeAdd.typeName = ""
           this.articleTypeAdd.parentId = ""
           this.$Message.success(res.data.message)
-          this.pages.pageNum=0
-          this.showTables();
+          this.reload();
         }).catch((err) => {
           console.log(err);
         });
       },
       onOk: function () {
+        //编辑状态
         if (!this.editorFlag) {
-
+          this.$ajax({
+            method: 'put',
+            url: this.articleTypeUrl,
+            data: this.$qs.stringify(this.articleType),
+          }).then((res) => {
+            if (!res.data.successFlag) {
+              this.$Message.error(res.data.message)
+              return;
+            }
+            this.$Message.success(res.data.message)
+            this.reload();
+          }).catch((err) => {
+            console.log(err);
+          });
         }
       },
       changePage: function (index) {
         this.pages.pageNum = index - 1;
         this.showTables();
-      }
-      ,
+      },
       showChart: function () {
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        this.myChart = this.$echarts.init(document.getElementById('myChart'))
         let option;
         this.$ajax({
           method: 'post',
-          url: '/rest/bolg-server/articlestypechart',
+          url: this.articleTypeChartUrl,
         }).then((res) => {
-          console.log(res);
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             option = {
@@ -334,8 +295,8 @@
                 }
               ]
             };
-            myChart.hideLoading();
-            myChart.setOption(option);
+            this.myChart.hideLoading();
+            this.myChart.setOption(option, true);
             return;
           }
           this.json = res.data.object;
@@ -386,8 +347,8 @@
               }
             ]
           };
-          myChart.hideLoading();
-          myChart.setOption(option);
+          this.myChart.hideLoading();
+          this.myChart.setOption(option, true);
         }).catch((err) => {
           console.log(err);
           option = {
@@ -440,50 +401,41 @@
           myChart.hideLoading();
           myChart.setOption(option);
         });
-      }
-      ,
+      },
       showTables: function () {
         let data = {};
         data['userId'] = this.user.userId;
         data['pageSize'] = this.pages.pageSize
         data['pageNum'] = this.pages.pageNum
-        this.$ajax({
-          method: 'post',
-          url: '/rest/bolg-server/articlestypes',
-          data: this.$qs.stringify(data)
-        }).then((res) => {
-          console.log(res);
-          if (!res.data.successFlag) {
-            console.log(res.data.message)
-            return;
-          }
-          console.log(res)
-          this.tableData3 = res.data.object.content;
-          this.pages.pageNum = res.data.object.pageNum + 1
-          this.pages.pageSize = res.data.object.pageSize
-          this.pages.total = res.data.object.total
-        }).catch((err) => {
+        this.$ajax.get(this.articleTypeUrl, {params: this.$qs.parse(data)})
+          .then((res) => {
+            if (!res.data.successFlag) {
+              console.log(res.data.message)
+              this.$Notice.error(res.data.message)
+              return;
+            }
+            this.tableData3 = res.data.object.content;
+            this.pages.pageNum = res.data.object.pageNum + 1
+            this.pages.pageSize = res.data.object.pageSize
+            this.pages.total = res.data.object.total
+          }).catch((err) => {
           console.log(err);
         });
       }
       ,
       parentType: function () {
         let data = {};
-        let param = new window.FormData();
-        param.append("userId", this.user.userId);
-        this.$ajax({
-          method: 'post',
-          url: '/rest/bolg-server/articlestypeparents',
-          data: param
-        }).then((res) => {
-          console.log(res);
-          if (!res.data.successFlag) {
-            console.log(res.data.message)
-            return;
-          }
-          console.log(res)
-          this.typeparent = res.data.object.content;
-        }).catch((err) => {
+        data["userId"]=this.user.userId;
+
+        this.$ajax.get(this.articleParentTypeUrl, {params: this.$qs.parse(data)})
+          .then((res) => {
+            console.log(res);
+            if (!res.data.successFlag) {
+              console.log(res.data.message)
+              return;
+            }
+            this.typeparent = res.data.object;
+          }).catch((err) => {
           console.log(err);
         });
       }
@@ -502,7 +454,7 @@
         let type = this.tableData3[index];
         this.$ajax({
           method: 'get',
-          url: '/rest/bolg-server/articlestypes/' + type.typeId,
+          url: this.articleTypeUrl + type.typeId,
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -521,7 +473,7 @@
         let type = this.tableData3[index];
         this.$ajax({
           method: 'get',
-          url: '/rest/bolg-server/articlestypes/' + type.typeId,
+          url: this.articleTypeUrl + type.typeId,
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -540,7 +492,7 @@
         let type = this.tableData3[index];
         this.$ajax({
           method: 'delete',
-          url: '/rest/bolg-server/deletearticlestype/' + type.typeId,
+          url: this.articleTypeUrl + type.typeId,
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -549,15 +501,11 @@
           }
           this.$Message.success(res.data.message);
           //重新加载信息
-          this.pages.pageNum = 0;
-          this.showTables();
-          this.parentType();
-          this.showChart();
+          this.reload();
         }).catch((err) => {
           console.log(err);
         });
       }
-      ,
     }
   }
 </script>

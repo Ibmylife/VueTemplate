@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{dateEnd}}
-    {{dateStart}}
     <div style="margin: 10px">
       Display border
       <i-switch v-model="showBorder" style="margin-right: 5px"></i-switch>
@@ -23,17 +21,17 @@
       </Radio-group>
       <br>
       <br>
-      <Row>
-        <Col span="6">
-          <DatePicker @on-change="searchDateChange" type="daterange" placeholder="请选择日期"
-                      format="yyyy-MM-dd"></DatePicker>
-        </Col>
-        <Col span="6">
-          <Input @on-change="searchTextChange" v-model="inputValue" placeholder="Enter something..." clearable>
-            <Icon type="ios-search" slot="suffix"/>
-          </Input>
-        </Col>
-      </Row>
+<!--      <Row>-->
+<!--        <Col span="6">-->
+<!--          <DatePicker @on-change="searchDateChange" type="daterange" placeholder="请选择日期"-->
+<!--                      format="yyyy-MM-dd"></DatePicker>-->
+<!--        </Col>-->
+<!--        <Col span="6">-->
+<!--          <Input @on-change="searchTextChange" v-model="inputValue" placeholder="Enter something..." clearable>-->
+<!--            <Icon type="ios-search" slot="suffix"/>-->
+<!--          </Input>-->
+<!--        </Col>-->
+<!--      </Row>-->
     </div>
     <Row>
       <Table stripe :border="showBorder" :stripe="showStripe" :show-header="showHeader" :height="fixedHeader ? 250 : ''"
@@ -46,7 +44,7 @@
       </Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
-          <Page :total="pages.total" :current="pages.pageNum" :page-size="pages.pageSize"
+          <Page :total="pages.total" :current="pages.pageNum+1" :page-size="pages.pageSize"
                 @on-change="changePage"></Page>
         </div>
       </div>
@@ -57,12 +55,13 @@
       <div style="color: #4585da;font-size: 12px;">
         {{article.articleId}}
         <span style="margin-right: 25px;">作者： {{article.userId}}</span>
-        <span style="margin-right: 25px;">发布时间：{{article.updateTimeStr}}</span>
+        <span style="margin-right: 25px;">发布时间：{{article.updateTime}}</span>
         <span style="margin-right: 25px;">分类：{{article.typeId}}</span>
       </div>
       <Row>
         <Col span="23">
-          <vue-markdown :source="contentHtml" style="width: 80%"></vue-markdown>
+                    <vue-markdown :source="contentHtml" style="width: 80%"></vue-markdown>
+<!--          <mavon-editor v-model="contentHtml" :editable="false" :toolbarsFlag="false" :subfield="false" :navigation="true" ref="editor" id="editor"/>-->
         </Col>
       </Row>
       <Divider/>
@@ -79,6 +78,7 @@
 </template>
 
 <script>
+  import Global from '../../Global'
   import VueMarkdown from 'vue-markdown';
 
   export default {
@@ -115,13 +115,14 @@
         fixedHeader: false,
         tableSize: 'default',
         pages: {
-          pageNum: 0,
-          pageSize: 5,
+          pageNum: Global.commmPageNum,
+          pageSize: Global.commmPageSize,
           total: 0
         },
         showArticleModal: false,
         contentHtml: '',
         article: {},
+        articlesUrl: 'http://localhost:8080/artcles/'
       }
     },
     computed: {
@@ -196,11 +197,11 @@
         });
         columns.push({
           title: '创建时间',
-          key: 'createTimeStr',
+          key: 'createTime',
         });
         columns.push({
           title: '修改时间',
-          key: 'updateTimeStr',
+          key: 'updateTime',
         });
         columns.push({
           title: '文章状态',
@@ -230,11 +231,15 @@
       },
       changePage(event) {
         //分页
-        this.pages.pageNum = event;
+        // this.pages.pageNum = event;
         let data = new window.FormData();
         data.append("pageSize", this.pages.pageSize);
-        data.append("pageNum", this.pages.pageNum - 1);
-        this.showChart(data);
+        data.append("pageNum", event - 1);
+        let dataJson = {};
+        dataJson['pageSize'] = this.pages.pageSize
+        dataJson['pageNum'] = event - 1
+        console.log(dataJson)
+        this.showChart(dataJson);
       },
       searchDateChange: function (a, b) {
         let dates = a.toString().split(',');
@@ -245,10 +250,11 @@
 
       },
       showArticle: function (index) {
+        console.log(this.tableData3)
         let article = this.tableData3[index];
         this.$ajax({
           method: 'get',
-          url: '/rest/bolg-server/artcle/' + article.articleId
+          url: this.articlesUrl + article.articleId
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.object.message);
@@ -258,18 +264,18 @@
           this.article.browerCount = res.data.object.browerCount
           this.article.content = res.data.object.content
           this.article.createTime = res.data.object.createTime
-          this.article.createTimeStr = res.data.object.createTimeStr
           this.article.firstTopic = res.data.object.firstTopic
           this.article.likeCount = res.data.object.likeCount
           this.article.secondTopic = res.data.object.secondTopic
           this.article.typeId = res.data.object.typeId
           this.article.updateTime = res.data.object.updateTime
-          this.article.updateTimeStr = res.data.object.updateTimeStr
           this.article.userId = res.data.object.userId
+          alert(this.article.content)
           this.$ajax({
             method: 'get',
             url: this.article.content,
           }).then((res) => {
+            this.contentHtml = "";
             this.contentHtml = res.data;
             this.showArticleModal = true;
           }).catch((err) => {
@@ -285,7 +291,7 @@
         let article = this.tableData3[index];
         this.$ajax({
           method: 'delete',
-          url: '/rest/bolg-server/deletearticle/' + article.articleId,
+          url: this.articlesUrl + article.articleId,
         }).then((res) => {
           if (res.data.successFlag) {
             this.$Message.success(res.data.message)
@@ -313,39 +319,41 @@
       }
       ,
       showChart: function (data) {
-        this.$ajax({
-          method: 'post',
-          url: '/rest/bolg-server/artcles',
-          data: data
-        }).then((res) => {
-          if (!res.data.successFlag) {
-            this.$Message.error(res.data.message);
-            return;
-          }
-          this.tableData3 = res.data.object.content;
-          this.pages.pageSize = res.data.object.pageSize;
-          this.pages.pageNum = res.data.object.pageNum + 1;
-          this.pages.total = res.data.object.total;
-        }).catch((err) => {
+        this.$ajax.get(this.articlesUrl, {params: this.$qs.parse(data)})
+          .then((res) => {
+            if (!res.data.successFlag) {
+              this.$Message.error(res.data.message);
+              return;
+            }
+            this.tableData3 = res.data.object.content;
+            this.pages.pageSize = res.data.object.pageSize;
+            this.pages.pageNum = res.data.object.pageNum;
+            this.pages.total = res.data.object.total;
+          }).catch((err) => {
           console.log(err);
         });
       }
     },
     mounted: function () {
-      let data = new window.FormData();
-      data.append("pageSize", this.pages.pageSize);
-      data.append("pageNum", this.pages.pageNum);
+      // let data = new window.FormData();
+      // data.append("pageSize", this.pages.pageSize);
+      // data.append("pageNum", this.pages.pageNum);
+      var data = {};
+      data['pageSize'] = this.pages.pageSize;
+      data['pageNum'] = this.pages.pageNum;
+      data['order'] = 'desc';
+      data['properties'] = 'updateTime'
       this.showChart(data);
     },
     watch: {
       'pages.pageSize': function () {
-
+        // alert("pagesize")
       },
-      'pages.pageNum': function () {
-
+      'pages.pageNum': function (oldVal, newVal) {
+        // alert("pageNum" + oldVal + " " + newVal)
       },
       'pages.total': function () {
-
+        // alert("total")
       }
     }
   }

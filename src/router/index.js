@@ -35,9 +35,11 @@ import 'mavon-editor/dist/css/index.css'
 import vueMarkdown from 'vue-markdown';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import base from '../components/GlobalFunction'//引用
-
+import base from '../components/GlobalFunction';//引用
 import VueJsonp from 'vue-jsonp'
+// import jquery from 'jquery';
+// import bootstrap from 'bootstrap'
+
 Vue.use(VueJsonp)//解决跨域问题,
 Vue.use(base);//将全局函数当做插件来进行注册
 Vue.use(mavonEditor)
@@ -48,6 +50,8 @@ Vue.use(Router)
 Vue.use(qs)
 Vue.use(SockJS)
 Vue.use(Stomp)
+// Vue.use(jquery)
+// Vue.use(bootstrap)
 Vue.prototype.$ajax = axios
 Vue.prototype.$qs = qs
 Vue.prototype.$echarts = echarts

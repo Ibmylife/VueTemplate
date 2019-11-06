@@ -1,10 +1,12 @@
 <template>
   <div>
-    <h1><center>{{firstTopic}}</center></h1>
+    <h1>
+      <center>{{firstTopic}}</center>
+    </h1>
     <Divider/>
     <div style="color: #4585da;font-size: 12px;">
       <!--<span style="margin-right: 25px;">作者： {{userId}}</span>-->
-      <span style="margin-right: 25px;">发布时间：{{updateTimeStr}}</span>
+      <span style="margin-right: 25px;">发布时间：{{updateTime}}</span>
       <!--<span style="margin-right: 25px;">分类：{{typeId}}</span>-->
     </div>
     <Row>
@@ -33,14 +35,13 @@
         content: "",
         contentHtml: "",
         createTime: "",
-        createTimeStr: "",
         firstTopic: "",
         likeCount: 0,
         secondTopic: "",
         typeId: "",
         updateTime: "",
-        updateTimeStr: "",
-        userId: ""
+        userId: "",
+        articlesUrl: 'http://localhost:8080/artcles/'
       }
     },
     mounted() {
@@ -63,19 +64,18 @@
         //加载主页面
         this.$ajax({
           method: 'get',
-          url: '/rest/bolg-client/artcle/' + this.$route.params.id
+          url: this.articlesUrl + this.$route.params.id
         }).then((res) => {
           // this.articleId = res.data.object.articleId
           // this.browerCount = res.data.object.browerCount
           this.content = res.data.object.content
           this.createTime = res.data.object.createTime
-          this.createTimeStr = res.data.object.createTimeStr
           this.firstTopic = res.data.object.firstTopic
           // this.likeCount = res.data.object.likeCount
           this.secondTopic = res.data.object.secondTopic
           // this.typeId = res.data.object.typeId
           // this.updateTime = res.data.object.updateTime
-          this.updateTimeStr = res.data.object.updateTimeStr
+          this.updateTime = res.data.object.updateTime
           this.userId = res.data.object.userId
           this.$ajax({
             method: 'get',
