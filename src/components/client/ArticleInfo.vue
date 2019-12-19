@@ -41,7 +41,7 @@
         typeId: "",
         updateTime: "",
         userId: "",
-        articlesUrl: 'http://localhost:8080/artcles/'
+        articlesUrl: 'http://www.niejiahao.cn:8080/artcles/'
       }
     },
     mounted() {

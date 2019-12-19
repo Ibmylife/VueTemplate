@@ -2,42 +2,47 @@
   <div>
     <!--TODO 查询模块以后做-->
     <!--<Card>-->
-      <!--<Form ref="formInline" :model="searchEvent" inline>-->
-        <!--<FormItem label="事件登记">-->
-          <!--<Select v-model="searchEvent.eventLevel">-->
-            <!--<Option value="1">错误</Option>-->
-            <!--<Option value="2">警告</Option>-->
-            <!--<Option value="3">一般</Option>-->
-          <!--</Select>-->
-        <!--</FormItem>-->
-        <!--<FormItem label="事件发生时间">-->
-          <!--<Row>-->
-            <!--<Col span="11">-->
-              <!--<DatePicker type="date" placeholder="Select date" v-model="searchEvent.eventUpdatetimeStart"></DatePicker>-->
-            <!--</Col>-->
-            <!--<Col span="2" style="text-align: center">-</Col>-->
-            <!--<Col span="11">-->
-              <!--<DatePicker type="date" placeholder="Select date" v-model="searchEvent.eventUpdatetimeEnd"></DatePicker>-->
-            <!--</Col>-->
-          <!--</Row>-->
-        <!--</FormItem>-->
-        <!--<FormItem prop="eventUpdatetime">-->
-          <!--<Input type="date" v-model="searchEvent.eventUpdatetime" :placeholder="new Date()">-->
-            <!--<Icon type="ios-lock-outline" slot="prepend"></Icon>-->
-          <!--</Input>-->
-        <!--</FormItem>-->
-        <!--<FormItem>-->
-          <!--<Button type="primary" @click="handleSubmit('formInline')">Signin</Button>-->
-        <!--</FormItem>-->
-      <!--</Form>-->
+    <!--<Form ref="formInline" :model="searchEvent" inline>-->
+    <!--<FormItem label="事件登记">-->
+    <!--<Select v-model="searchEvent.eventLevel">-->
+    <!--<Option value="1">错误</Option>-->
+    <!--<Option value="2">警告</Option>-->
+    <!--<Option value="3">一般</Option>-->
+    <!--</Select>-->
+    <!--</FormItem>-->
+    <!--<FormItem label="事件发生时间">-->
+    <!--<Row>-->
+    <!--<Col span="11">-->
+    <!--<DatePicker type="date" placeholder="Select date" v-model="searchEvent.eventUpdatetimeStart"></DatePicker>-->
+    <!--</Col>-->
+    <!--<Col span="2" style="text-align: center">-</Col>-->
+    <!--<Col span="11">-->
+    <!--<DatePicker type="date" placeholder="Select date" v-model="searchEvent.eventUpdatetimeEnd"></DatePicker>-->
+    <!--</Col>-->
+    <!--</Row>-->
+    <!--</FormItem>-->
+    <!--<FormItem prop="eventUpdatetime">-->
+    <!--<Input type="date" v-model="searchEvent.eventUpdatetime" :placeholder="new Date()">-->
+    <!--<Icon type="ios-lock-outline" slot="prepend"></Icon>-->
+    <!--</Input>-->
+    <!--</FormItem>-->
+    <!--<FormItem>-->
+    <!--<Button type="primary" @click="handleSubmit('formInline')">Signin</Button>-->
+    <!--</FormItem>-->
+    <!--</Form>-->
     <!--</Card>-->
     <Table border stripe height="650" :loading="loading" :columns="columns1" :data="data1">
       <template slot-scope="{ row, index }" slot="action">
         <Button type="primary" size="small" @click="showEvent(index)">详情</Button>
       </template>
     </Table>
-    <Modal
-      title="日志详情" fullscreen v-model="show" :closable="false">
+    <div style="margin: 10px;overflow: hidden">
+      <div style="float: right;">
+        <Page :total="pages.total" :current="pages.pageNum" :page-size="pages.pageSize"
+              @on-change="changePage"></Page>
+      </div>
+    </div>
+    <Modal  title="日志详情" fullscreen v-model="show" :closable="false">
       <Form :label-width="80">
         <FormItem label="基础信息">
           <CellGroup>
@@ -151,139 +156,6 @@
             eventUpdateFlag: true,
             eventId: '15',
             eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '2',
-            eventSimpleDesc: '上传FTP文件异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '14',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '13',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '12',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '11',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '10',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '9',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '8',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '7',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '6',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '5',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '4',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '3',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '2',
-            eventDetail: '2016-10-03 10:12:12 发生错误哦',
-          },
-          {
-            eventLevel: '4',
-            eventSimpleDesc: '定时任务异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '1',
-            eventDetail: 'Exception in thread "main" java.lang.ClassNotFoundException: afafad\r\n' +
-              '\tat java.net.URLClassLoader.findClass(URLClassLoader.java:381)\r\n' +
-              '\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\r\n' +
-              '\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)\r\n' +
-              '\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\r\n' +
-              '\tat java.lang.Class.forName0(Native Method)\r\n' +
-              '\tat java.lang.Class.forName(Class.java:264)\r\n' +
-              '\tat com.njh.config.config.main(config.java:73)\r\n',
           }
         ],
         show: false,
@@ -323,7 +195,12 @@
           eventDetail: '2016-10-03 10:12:12 发生错误哦',
           // 持续时间
           eventContiuneTime: '2016-10-03 10:12:12',
-        }
+        },
+        pages: {
+          pageNum: 1,
+          pageSize: 12,
+          total: 0
+        },
       }
     },
     methods: {
@@ -350,6 +227,10 @@
       getEvent: function () {
         alert('本地缓存不存在,调用接口获取');
       },
+      changePage: function (index) {
+        this.pages.pageNum = index;
+        this.getTableData();
+      },
       changeEventFlag: function (flag) {
         let confirmFlag = false;
         let content = "";
@@ -367,7 +248,27 @@
           return;
 
         }
-      }
+      },
+      getTableData: function () {
+        let data = {};
+        data['pageSize'] = this.pages.pageSize;
+        data['pageNum'] = this.pages.pageNum - 1;
+        let url = 'http://www.niejiahao.cn:8080/events/';
+        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+          //这里使用了ES6的语法
+          if (!res.data.successFlag) {
+            this.$Message.error(res.data.message);
+            return;
+          }
+          this.pages.pageSize = res.data.object.pageSize;
+          this.pages.pageNum = res.data.object.pageNum + 1;
+          this.pages.total = res.data.object.total;
+          this.data1 = res.data.object.content
+          //请求成功返回的数据
+        }).catch((error) => {
+          console.log(error)       //请求失败返回的数据
+        })
+      },
     },
     watch: {
       $route() {
@@ -383,6 +284,8 @@
       this.getTableInfo();
       if (this.eventId != undefined) {
         this.showEvent(this.eventId);
+      } else {
+        this.getTableData();
       }
     }
   }

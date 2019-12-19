@@ -54,12 +54,6 @@
           <Col span="1">
             <p></p>
           </Col>
-          <Col span="15">
-            <router-view name="main" v-on:toArticle="toArticle"></router-view>
-          </Col>
-          <Col span="1">
-            <p></p>
-          </Col>
           <Col span="6">
             <Row>
               <router-view name="sidebarAdd" v-on:toArticleAdd="toArticleAdd"></router-view>
@@ -79,6 +73,17 @@
           </Col>
           <Col span="1">
             <p></p>
+          </Col>
+          <Col span="15">
+            <router-view name="main" v-on:toArticle="toArticle"></router-view>
+          </Col>
+          <Col span="1">
+            <p></p>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <p class="text-center">©CopyRight 赣ICP备18005506号. niejiahao 版权所有</p>
           </Col>
         </Row>
       </Layout>
@@ -159,7 +164,6 @@
     color: #FFF;
     text-align: center;
     z-index: 1;
-    /*margin-top: 60px;*/
   }
 
   .window .desc {
@@ -177,13 +181,4 @@
     height: 230px;
     width: 100%;
   }
-
-  /*.page-background-picture {*/
-  /*position: fixed;*/
-  /*z-index: -1;*/
-  /*top: 0px;*/
-  /*left: 0px;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*}*/
 </style>

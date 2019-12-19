@@ -4,7 +4,6 @@
     <!--图片名称 ,创建时间,大小,文件上传者-->
     <!--文件名称,创建时间,大小,文件上传者-->
     <!--表格, 文件:图标,文件名 ,图片:详情,图片名-->
-    <!--<Button >显示方式</Button>-->
     <div class="row">
       <div class="col-lg-3">
       </div>
@@ -15,42 +14,37 @@
         <Button type="primary" @click="clickUploadFile" class="center-block text-center">上传文件</Button>
       </div>
       <div class="col-lg-2">
-        <div @click="changeShowInType" class="center-block text-center">
-          <Icon type="ios-apps-outline" size="40" v-if="showInType.table"/>
-          <Icon type="md-apps" size="40" v-if="showInType.detail"/>
-        </div>
+        <p></p>
       </div>
     </div>
-    <Divider/>
-    <!--详情,每行6个card-->
-    <div v-if="showInType.detail">
-      <div v-for="(file,index) in detailFiles">
-        <div :class="layout.columnNumberSizeClass">
-          <Card>
-            <div style="text-align:center">
-              <img :src="file.url" class="img-responsive">
-              <h3>{{file.fileName}}</h3>
+    <!--    <Divider/>-->
+    <Table border :columns="columns12" :data="tableFiles">
+      <template slot-scope="{ row }" slot="name">
+        <strong>{{ row.name }}</strong>
+      </template>
+      <template slot-scope="{ row, index }" slot="action">
+        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">详情</Button>
+        <Button type="error" size="small" @click="remove(index)">删除</Button>
+      </template>
+    </Table>
+    <div style="margin: 10px;overflow: hidden">
+      <div style="float: right;">
+        <Page :total="pages.total" :current="pages.pageNum" :page-size="pages.pageSize"
+              @on-change="changePage"></Page>
+      </div>
+    </div>
+    <div>
+      <Modal v-model="uploadModalFlag" draggable scrollable title="上传文件">
+        <div>
+          <Upload type="drag" action="http://www.niejiahao.cn:8080/files/artices" name="file" :on-success="uploadSuccess"
+                  :on-error="uploadError">
+            <div style="padding: 20px 0">
+              <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+              <p>点击或者拉取文件到这上传</p>
             </div>
-          </Card>
+          </Upload>
         </div>
-      </div>
-    </div>
-    <div v-if="showInType.table">
-      <Table border :columns="columns12" :data="tableFiles">
-        <template slot-scope="{ row }" slot="name">
-          <strong>{{ row.name }}</strong>
-        </template>
-        <template slot-scope="{ row, index }" slot="action">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">View</Button>
-          <Button type="error" size="small" @click="remove(index)">Delete</Button>
-        </template>
-      </Table>
-      <div style="margin: 10px;overflow: hidden">
-        <div style="float: right;">
-          <Page :total="pages.total" :current="pages.pageNum" :page-size="pages.pageSize"
-                @on-change="changePage"></Page>
-        </div>
-      </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -58,11 +52,12 @@
 <script>
   export default {
     name: "FtpDetail",
+    inject: ['reload'],
     data() {
       return {
         showInType: {
-          detail: true,
-          table: false,
+          detail: false,
+          table: true,
         },
         layout: {
           columnNumber: 4,
@@ -70,182 +65,11 @@
           columnNumberSize: 0,
         },
         pages: {
-          pageNum: 0,
-          pageSize: 5,
+          pageNum: 1,
+          pageSize: 10,
           total: 0
         },
-        detailFiles: [
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-        ],
-        tableFiles: [
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-          {
-            url: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2259376396,2250852130&fm=27&gp=0.jpg",
-            fileName: "ceshi",
-            fileSize: "1m",
-            fileType: ".jpg",
-            fileDate: new Date(),
-          },
-        ],
+        tableFiles: [],
         columns12: [
           {
             title: '文件名',
@@ -261,7 +85,11 @@
           },
           {
             title: '上传时间',
-            key: 'fileDate'
+            key: 'createTime'
+          },
+          {
+            title: '上传人',
+            key: 'userId'
           },
           {
             title: 'Action',
@@ -270,28 +98,7 @@
             align: 'center'
           }
         ],
-        data6: [
-          {
-            name: 'John Brown',
-            age: 18,
-            address: 'New York No. 1 Lake Park'
-          },
-          {
-            name: 'Jim Green',
-            age: 24,
-            address: 'London No. 1 Lake Park'
-          },
-          {
-            name: 'Joe Black',
-            age: 30,
-            address: 'Sydney No. 1 Lake Park'
-          },
-          {
-            name: 'Jon Snow',
-            age: 26,
-            address: 'Ottawa No. 2 Lake Park'
-          }
-        ]
+        uploadModalFlag: false,
       }
     },
     methods: {
@@ -300,13 +107,11 @@
         this.showInType.detail = !this.showInType.detail;
       },
       getTableData: function () {
-        let data = new window.FormData();
-        let url = '';
-        this.$ajax({
-          method: 'post',
-          url: url,
-          data: data,
-        }).then((res) => {
+        let data = {};
+        data['pageSize'] = this.pages.pageSize;
+        data['pageNum'] = this.pages.pageNum - 1;
+        let url = 'http://www.niejiahao.cn:8080/files/';
+        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
           //这里使用了ES6的语法
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
@@ -321,6 +126,9 @@
           console.log(error)       //请求失败返回的数据
         })
       },
+      /**
+       * 详情数据
+       */
       getDetailData: function () {
         let data = new window.FormData();
         let url = '';
@@ -335,22 +143,53 @@
             return;
           }
           this.detailFiles = res.data.object.content
+          this.reload();
           //请求成功返回的数据
         }).catch((error) => {
           console.log(error)       //请求失败返回的数据
         })
+      },
+      clickUploadFile: function () {
+        this.uploadModalFlag = true;
+      },
+      show: function (index) {
+        alert(index)
+      },
+      remove: function (index) {
+        let fileId = this.tableFiles[index]['fileId'];
+        this.$ajax({
+          method: 'delete',
+          url: 'http://www.niejiahao.cn:8080/files/' + fileId,
+        }).then((res) => {
+          if (!res.data.successFlag) {
+            this.$Message.error(res.data.message);
+          } else {
+            this.$Message.success(res.data.message);
+            this.reload();
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
+      changePage: function (index) {
+        this.pages.pageNum = index;
+        this.getTableData();
+      },
+      uploadSuccess: function (response, file, fileList) {
+        this.uploadModalFlag = false;
+        this.$Notice.success("<p>上传成功</p>")
+        this.reload();
+      },
+      uploadError: function (error, file, fileList) {
+        this.clearFiles();
+        this.$Notice.error("上传失败" + error)
+        this.uploadModalFlag = true;
       }
     },
     mounted: function () {
-      // this.getTableData();
-      // this.getDetailData();
+      this.getTableData();
     },
-    watch: {
-      'layout.columnNumber': function () {
-        this.columnNumberSizeClass = this.getColWithBootstrap(this.layout.columnNumber)
-        this.columnNumberSize = this.getColSizeWithBootstrap(this.layout.columnNumber)
-      }
-    }
+    watch: {}
   }
 </script>
 

@@ -122,7 +122,7 @@
         showArticleModal: false,
         contentHtml: '',
         article: {},
-        articlesUrl: 'http://localhost:8080/artcles/'
+        articlesUrl: 'http://www.niejiahao.cn:8080/artcles/'
       }
     },
     computed: {

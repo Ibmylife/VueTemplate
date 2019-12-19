@@ -38,12 +38,17 @@
     <Layout :style="{minHeight: '100vh'}">
       <Sider collapsible :collapsed-width="78" v-model="isCollapsed">
         <Menu active-name="1" theme="dark" width="auto" :class="menuitemClasses" :open-names="['1']" accordion>
-          <MenuItem name="1">
-            <router-link to="/admin/home.html">
-              <!--<Icon type="md-home"/>-->
-              <center><h1>{{user.userName}}</h1></center>
-            </router-link>
-          </MenuItem>
+          <Submenu name="1">
+            <template slot="title">
+              <Icon type="ios-navigate"></Icon>
+              <span>主页</span>
+            </template>
+            <MenuItem name="1-1">
+              <router-link to="/admin/home.html">
+                <span><Icon type="md-home"/>{{user.userName}}</span>
+              </router-link>
+            </MenuItem>
+          </Submenu>
           <Submenu name="2">
             <template slot="title">
               <Icon type="ios-navigate"></Icon>
@@ -125,6 +130,18 @@
               <router-link to="/admin/events.html">
                 <Icon type="md-home"/>
                 <span>运行错误</span>
+              </router-link>
+            </MenuItem>
+          </Submenu>
+          <Submenu name="6">
+            <template slot="title">
+              <Icon type="ios-navigate"></Icon>
+              <span>项目配置</span>
+            </template>
+            <MenuItem name="5-1">
+              <router-link to="/admin/projectparam.html">
+                <Icon type="md-home"/>
+                <span>运行项目参数</span>
               </router-link>
             </MenuItem>
           </Submenu>
@@ -243,6 +260,14 @@
               layout: '运行错误'
             }
           },
+          {
+            key: '/admin/projectparam.html',
+            value: {
+              home: '管理后台',
+              components: '项目配置',
+              layout: '项目参数'
+            }
+          }
         ],
         websock: null,
       }

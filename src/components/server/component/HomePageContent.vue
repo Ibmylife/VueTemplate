@@ -3,7 +3,69 @@
     <!--基本数据图-->
     <Row>
       <Col span="24">
-        <div ref="myChart" id="myChart" :style="{width: '1480px', height: '300px'}"></div>
+        <ve-line :data="chartData"></ve-line>
+      </Col>
+    </Row>
+    <br/>
+    <!--    1.JVM图,接口调用-->
+    <!--    2.接口调用出错比-->
+    <!--    3.数据库查询和增加删除修改比-->
+    <!--    4.访问地址信息图-->
+    <Row>
+      <Col span="6">
+        <Row>
+          <Col span="24">
+            <ve-liquidfill :data="chartData1"></ve-liquidfill>
+            <!--            <ve-gauge :data="chartData1" :settings="chartSettings1"></ve-gauge>-->
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <p style="text-align: center">JVM图</p>
+          </Col>
+        </Row>
+      </Col>
+      <Col span="6">
+        <Row>
+          <Col span="24">
+            <ve-pie :data="chartData2"></ve-pie>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <p style="text-align: center">接口调用出错比</p>
+          </Col>
+        </Row>
+      </Col>
+      <Col span="6">
+        <Row>
+          <Col span="24">
+            <ve-pie :data="chartData3"></ve-pie>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <p style="text-align: center">数据库查询和增加删除修改比</p>
+          </Col>
+        </Row>
+      </Col>
+      <Col span="6">
+        <Row>
+          <Col span="24">
+            <ve-map :data="chartData4"></ve-map>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <p style="text-align: center">访问人地址</p>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+    <br/>
+    <Row>
+      <Col span="24">
+        <p></p>
       </Col>
     </Row>
     <br/>
@@ -70,39 +132,12 @@
   export default {
     name: "HomePageContent",
     created: function () {
-      // this.showChart();
-      // window.onresize = function () {
-      //   this.myChart.resize();
-      // }
     },
     mounted: function () {
       this.showChart();
     },
     data() {
       return {
-        legendData: ['文章', '评论', '浏览数'],
-        xAxisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        series: [
-          {
-            name: '文章',
-            type: 'line',
-            stack: '总量',
-            data: [1, 2, 3, 4, 5, 6, 7]
-          },
-          {
-            name: '评论',
-            type: 'line',
-            stack: '总量',
-            data: [1, 2, 2, 4, 4, 10, 10]
-          },
-          {
-            name: '浏览数',
-            type: 'line',
-            stack: '总量',
-            data: [1, 3, 5, 7, 9, 11, 13]
-          },
-        ],
-
         columns1: [
           {
             type: 'index',
@@ -185,110 +220,6 @@
             eventCount: 2,
             eventUpdateFlag: true,
             eventId: '14',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '13',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '12',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '11',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '10',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '9',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '8',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '7',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '6',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '5',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '4',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '3',
-          },
-          {
-            eventLevel: '3',
-            eventSimpleDesc: '获取文章异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '2',
-          },
-          {
-            eventLevel: '4',
-            eventSimpleDesc: '定时任务异常',
-            eventUpdatetime: '2016-10-03 10:12:12',
-            eventCount: 2,
-            eventUpdateFlag: true,
-            eventId: '1',
           }
         ],
         columns2: [
@@ -371,79 +302,106 @@
             taskExecuteTime: '2016-10-03 10:12:12',
             taskCreateTime: '2016-10-03 10:12:12',
             taskId: '13',
-          },
-          {
-            taskLevel: '3',
-            taskSimpleDesc: '获取文章异常',
-            taskExecuteTime: '2016-10-03 10:12:12',
-            taskCreateTime: '2016-10-03 10:12:12',
-            taskId: '14',
-          },
-          {
-            taskLevel: '3',
-            taskSimpleDesc: '获取文章异常',
-            taskExecuteTime: '2016-10-03 10:12:12',
-            taskCreateTime: '2016-10-03 10:12:12',
-            taskId: '15',
-          },
-          {
-            taskLevel: '3',
-            taskSimpleDesc: '获取文章异常',
-            taskExecuteTime: '2016-10-03 10:12:12',
-            taskCreateTime: '2016-10-03 10:12:12',
-            taskId: '16',
-          },
-          {
-            taskLevel: '4',
-            taskSimpleDesc: '定时任务异常',
-            taskExecuteTime: '2016-10-03 10:12:12',
-            taskCreateTime: '2016-10-03 10:12:12',
-            taskId: '17',
           }
         ],
         loading: false,
-        myChart: ''
+        chartData: {
+          columns: ['日期', '文章', '评论', '浏览数'],
+          rows: [
+            {'日期': '礼拜一', '文章': 1, '评论': 1, '浏览数': 1},
+            {'日期': '礼拜二', '文章': 2, '评论': 2, '浏览数': 3},
+            {'日期': '礼拜三', '文章': 3, '评论': 2, '浏览数': 5},
+            {'日期': '礼拜四', '文章': 4, '评论': 4, '浏览数': 4},
+            {'日期': '礼拜五', '文章': 5, '评论': 4, '浏览数': 9},
+            {'日期': '礼拜六', '文章': 6, '评论': 10, '浏览数': 11},
+            {'日期': '礼拜七', '文章': 7, '评论': 10, '浏览数': 13}
+          ]
+        },
+        chartData1: {
+          columns: ['city', 'percent'],
+          rows: [{
+            city: '上海',
+            percent: 0.6
+          }
+          ]
+        },
+        chartSettings1: {
+          dimension: 'type',
+          metrics: 'value'
+        },
+        chartData2: {
+          columns: ['日期', '访问用户'],
+          rows: [
+            {'日期': '1/1', '访问用户': 1393},
+            {'日期': '1/2', '访问用户': 3530},
+            {'日期': '1/3', '访问用户': 2923},
+            {'日期': '1/4', '访问用户': 1723},
+            {'日期': '1/5', '访问用户': 3792},
+            {'日期': '1/6', '访问用户': 4593}
+          ]
+        },
+        chartData3: {
+          columns: ['日期', '访问用户'],
+          rows: [
+            {'日期': '1/1', '访问用户': 1393},
+            {'日期': '1/2', '访问用户': 3530},
+            {'日期': '1/3', '访问用户': 2923},
+            {'日期': '1/4', '访问用户': 1723},
+            {'日期': '1/5', '访问用户': 3792},
+            {'日期': '1/6', '访问用户': 4593}
+          ]
+        },
+        chartData4: {
+          columns: ['位置', '税收', '人口', '面积'],
+          rows: [
+            {'位置': '吉林', '税收': 123, '人口': 123, '面积': 92134},
+            {'位置': '北京', '税收': 1223, '人口': 2123, '面积': 29234},
+            {'位置': '上海', '税收': 2123, '人口': 1243, '面积': 94234},
+            {'位置': '浙江', '税收': 4123, '人口': 5123, '面积': 29234}
+          ]
+        },
       }
     },
     methods: {
       //统计图
       showChart: function () {
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
-        // let myChart = this.$echarts.init(this.$refs.mychart)
-        this.myChart=myChart;
-        let option = {
-          title: {
-            text: '统计图'
-          },
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            data: this.legendData
-          },
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: this.xAxisData
-          },
-          yAxis: {
-            type: 'value'
-          },
-          series: this.series
-        };
-        this.myChart.setOption(option);
-      },
+        // let myChart = this.$echarts.init(document.getElementById('myChart'))
+        // // let myChart = this.$echarts.init(this.$refs.mychart)
+        // this.myChart=myChart;
+        // let option = {
+        //   title: {
+        //     text: '统计图'
+        //   },
+        //   tooltip: {
+        //     trigger: 'axis'
+        //   },
+        //   legend: {
+        //     data: this.legendData
+        //   },
+        //   grid: {
+        //     left: '3%',
+        //     right: '4%',
+        //     bottom: '3%',
+        //     containLabel: true
+        //   },
+        //   toolbox: {
+        //     feature: {
+        //       saveAsImage: {}
+        //     }
+        //   },
+        //   xAxis: {
+        //     type: 'category',
+        //     boundaryGap: false,
+        //     data: this.xAxisData
+        //   },
+        //   yAxis: {
+        //     type: 'value'
+        //   },
+        //   series: this.series
+        // };
+        // this.myChart.setOption(option);
+      }
+      ,
       //表格
       show(index) {
         //TODO 这里等会改成向上传递数据,跳到异常详情页
@@ -451,7 +409,8 @@
           title: 'User Info',
           content: `Name：${this.data1[index].name}<br>Age：${this.data1[index].age}<br>Address：${this.data1[index].address}`
         })
-      },
+      }
+      ,
       showEvent(index) {
         //这里等会改成向上传递数据,跳到异常详情页
         let params = {};
@@ -460,7 +419,8 @@
         params['taskFlag'] = false;
         params['articleIdFlag'] = false;
         this.$emit('toContent', params);
-      },
+      }
+      ,
       showTask(index) {
         let params = {};
         params['eventFlag'] = false;
@@ -468,7 +428,7 @@
         params['taskFlag'] = true;
         params['taskId'] = this.data2[index].taskId;
         this.$emit('toContent', params);
-      }
+      },
     }
   }
 

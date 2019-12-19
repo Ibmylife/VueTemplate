@@ -103,7 +103,7 @@
           'overflow': 'hidden',
           'opacity': '0.4'
         },
-        loginUrl: 'http://localhost:8080/user/login'
+        loginUrl: 'http://www.niejiahao.cn:8080/user/login'
       }
     },
     computed: {}

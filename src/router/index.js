@@ -37,9 +37,11 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import base from '../components/GlobalFunction';//引用
 import VueJsonp from 'vue-jsonp'
-// import jquery from 'jquery';
-// import bootstrap from 'bootstrap'
 
+import VCharts from 'v-charts'
+import ProjectParam from "../components/server/component/ProjectParam";
+
+Vue.use(VCharts)
 Vue.use(VueJsonp)//解决跨域问题,
 Vue.use(base);//将全局函数当做插件来进行注册
 Vue.use(mavonEditor)
@@ -48,10 +50,10 @@ Vue.use(axios);
 Vue.use(iView);
 Vue.use(Router)
 Vue.use(qs)
+
 Vue.use(SockJS)
 Vue.use(Stomp)
-// Vue.use(jquery)
-// Vue.use(bootstrap)
+
 Vue.prototype.$ajax = axios
 Vue.prototype.$qs = qs
 Vue.prototype.$echarts = echarts
@@ -96,7 +98,7 @@ const routers = [
         }
       },
       {
-        path: 'editor/:articleId'+'.html',
+        path: 'editor/:articleId' + '.html',
         components: {
           breadcrumbnavigation: BreadcrumbNavigation,
           content: ArticleEditor,
@@ -157,6 +159,13 @@ const routers = [
           breadcrumbnavigation: BreadcrumbNavigation,
           content: UserSecurityDetail,
         }
+      },
+      {
+        path: 'projectparam.html',
+        components: {
+          breadcrumbnavigation: BreadcrumbNavigation,
+          content: ProjectParam,
+        }
       }
     ]
   },
@@ -211,5 +220,6 @@ const routers = [
   }
 ];
 export default new Router({
+  mode: 'history',
   routes: routers
 })

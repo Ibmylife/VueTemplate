@@ -86,7 +86,7 @@
         },
         dateStart: '',
         dateEnd: '',
-        userUrl: 'http://localhost:8080/user/',
+        userUrl: 'http://www.niejiahao.cn:8080/user/',
         userFlag: false,
         user: {}
       }

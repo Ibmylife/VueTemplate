@@ -99,9 +99,9 @@
           pageSize: Global.commmMaxPageSize,
           total: 0
         },
-        articleUrl: 'http://localhost:8080/artcles/',
-        articleTypesUrl: 'http://localhost:8080/articlesTypes/search/subType/',
-        fileArticleUrl: 'http://localhost:8080/files/artices/',
+        articleUrl: 'http://www.niejiahao.cn:8080/artcles/',
+        articleTypesUrl: 'http://www.niejiahao.cn:8080/articlesTypes/search/subType/',
+        fileArticleUrl: 'http://www.niejiahao.cn:8080/files/artices/',
       }
     },
     methods: {

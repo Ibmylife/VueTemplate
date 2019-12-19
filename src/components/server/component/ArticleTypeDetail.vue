@@ -131,9 +131,9 @@
         },
         typeAddModalFlag: false,
         myChart: '',
-        articleTypeUrl: "http://localhost:8080/articlesTypes/",
-        articleTypeChartUrl: "http://localhost:8080/articlesTypes/articlestypechart/",
-        articleParentTypeUrl: "http://localhost:8080/articlesTypes/search/parents/",
+        articleTypeUrl: "http://www.niejiahao.cn:8080/articlesTypes/",
+        articleTypeChartUrl: "http://www.niejiahao.cn:8080/articlesTypes/articlestypechart/",
+        articleParentTypeUrl: "http://www.niejiahao.cn:8080/articlesTypes/search/parents/",
       }
     }
     ,

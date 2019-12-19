@@ -40,7 +40,7 @@
         pageSize: Global.siderbarTimePageSize,
         pageNum: Global.siderbarTimePageNum,
         articles: {},
-        articlesUrl: 'http://localhost:8080/artcles',
+        articlesUrl: 'http://www.niejiahao.cn:8080/artcles',
       }
     },
     methods: {

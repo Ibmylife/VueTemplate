@@ -42,7 +42,7 @@
         types: {},
         pageSize: Global.siderbarTypePageSize,
         pageNum: Global.siderbarTypePageNum,
-        articlesTypeUrl: 'http://localhost:8080/articlesTypes'
+        articlesTypeUrl: 'http://www.niejiahao.cn:8080/articlesTypes'
       }
     },
     methods: {

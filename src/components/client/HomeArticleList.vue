@@ -47,6 +47,7 @@
 
 <script>
   import Global from '../Global'
+
   export default {
     name: "HomeArticleList",
     mounted() {
@@ -60,14 +61,25 @@
     },
     data() {
       return {
-        articles: {}
+        articles: [
+          {
+            firstTopic: "第一条",
+            articleId: 1,
+            secondTopic: "第一条",
+            userId: 123,
+            updateTime: '2019-12-16',
+            typeId: 321,
+            likeCount: 0,
+            secondTopic: "副标题"
+          }
+        ]
         ,
         pages: {
           pageNum: Global.commmPageNum,
           pageSize: Global.commmPageSize,
           total: 0
         },
-        articlesUrl: 'http://localhost:8080/artcles'
+        articlesUrl: 'http://www.niejiahao.cn:8080/artcles'
       }
     }
     ,

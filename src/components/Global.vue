@@ -4,7 +4,7 @@
 
 <script>
   //客户端
-  const baseClientUrl = "http://localhost:8080/";
+  const baseClientUrl = "http://www.niejiahao.cn:8080/";
   const siderbarAddPageSize = 4;
   const siderbarRankPageSize = 4;
   const siderbarTimePageSize = 4;
