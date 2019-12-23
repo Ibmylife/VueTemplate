@@ -130,6 +130,7 @@
       //这些跟上面不同,需要单独处理
       toArticleType: function (type) {
         console.log(this.$router);
+        console.log(type)
         this.$router.push({
           path: '/blogtype/' + type + '.html',
         })

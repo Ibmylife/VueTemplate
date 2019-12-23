@@ -39,8 +39,6 @@
     </div>
     <Page :total="pages.total" :current="pages.pageNum+1" v-on:on-change="changePageNum($event)"
           :page-size="pages.pageSize" prev-text="上一页" next-text="下一页"/>
-    <!--    <Page :total="pages.total" v-on:on-change="changePageNum($event)" :current="pages.pageNum+1"-->
-    <!--          :page-size="pages.pageSize" prev-text="上一页" next-text="下一页"/>-->
     <br/>
   </div>
 </template>
@@ -61,25 +59,14 @@
     },
     data() {
       return {
-        articles: [
-          {
-            firstTopic: "第一条",
-            articleId: 1,
-            secondTopic: "第一条",
-            userId: 123,
-            updateTime: '2019-12-16',
-            typeId: 321,
-            likeCount: 0,
-            secondTopic: "副标题"
-          }
-        ]
+        articles: []
         ,
         pages: {
           pageNum: Global.commmPageNum,
           pageSize: Global.commmPageSize,
           total: 0
         },
-        articlesUrl: 'http://www.niejiahao.cn:8080/artcles'
+        articlesUrl: 'http://www.niejiahao.cn:8080/frontend/artcles'
       }
     }
     ,

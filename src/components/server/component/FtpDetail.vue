@@ -4,21 +4,16 @@
     <!--图片名称 ,创建时间,大小,文件上传者-->
     <!--文件名称,创建时间,大小,文件上传者-->
     <!--表格, 文件:图标,文件名 ,图片:详情,图片名-->
-    <div class="row">
-      <div class="col-lg-3">
-      </div>
-      <div class="col-lg-5">
-
-      </div>
-      <div class="col-lg-2">
-        <Button type="primary" @click="clickUploadFile" class="center-block text-center">上传文件</Button>
-      </div>
-      <div class="col-lg-2">
+    <Row>
+      <Col span="22">
         <p></p>
-      </div>
-    </div>
-    <!--    <Divider/>-->
-    <Table border :columns="columns12" :data="tableFiles">
+      </Col>
+      <Col span="2">
+        <Button type="primary" @click="clickUploadFile" class="center-block text-center">上传文件</Button>
+      </Col>
+    </Row>
+    <br/>
+    <Table stripe height="521" border :columns="columns12" :data="tableFiles">
       <template slot-scope="{ row }" slot="name">
         <strong>{{ row.name }}</strong>
       </template>
@@ -36,13 +31,30 @@
     <div>
       <Modal v-model="uploadModalFlag" draggable scrollable title="上传文件">
         <div>
-          <Upload type="drag" action="http://www.niejiahao.cn:8080/files/artices" name="file" :on-success="uploadSuccess"
+          <Upload multiple type="drag" action="http://www.niejiahao.cn:8080/files/artices" name="file"
+                  :on-success="uploadSuccess"
                   :on-error="uploadError">
             <div style="padding: 20px 0">
               <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
               <p>点击或者拉取文件到这上传</p>
             </div>
           </Upload>
+        </div>
+      </Modal>
+    </div>
+    <div>
+      <Modal v-model="showModalFlag" draggable scrollable title="文件详情">
+        <div>
+          <Row>
+            <Col span="24">
+              <div v-if="!showImgUrl">
+                此文件不支持预览
+              </div>
+              <div v-else>
+                <img v-bind:src="imgUrl" class="img-responsive img-thumbnail"/>
+              </div>
+            </Col>
+          </Row>
         </div>
       </Modal>
     </div>
@@ -72,6 +84,17 @@
         tableFiles: [],
         columns12: [
           {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+          },
+          {
+            type: 'index',
+            width: 60,
+            align: 'center',
+            title: '索引',
+          },
+          {
             title: '文件名',
             key: 'fileName'
           },
@@ -92,27 +115,25 @@
             key: 'userId'
           },
           {
-            title: 'Action',
+            title: '操作',
             slot: 'action',
             width: 150,
             align: 'center'
           }
         ],
         uploadModalFlag: false,
+        imgUrl: "",
+        showImgUrl: false,
+        showModalFlag: false
       }
     },
     methods: {
-      changeShowInType: function () {
-        this.showInType.table = !this.showInType.table;
-        this.showInType.detail = !this.showInType.detail;
-      },
       getTableData: function () {
         let data = {};
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum - 1;
         let url = 'http://www.niejiahao.cn:8080/files/';
         this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
-          //这里使用了ES6的语法
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;
@@ -153,7 +174,15 @@
         this.uploadModalFlag = true;
       },
       show: function (index) {
-        alert(index)
+        let files = this.tableFiles[index];
+        let fileId = files['fileId'];
+        console.log(files)
+        let fileType = files['fileType'];
+        this.imgUrl = "http://www.niejiahao.cn:8080/files/artices/" + fileId;
+        if (fileType.indexOf('jpeg') != -1 || fileType.indexOf('jpg') != -1) {
+          this.showImgUrl = true;
+          this.showModalFlag = true;
+        }
       },
       remove: function (index) {
         let fileId = this.tableFiles[index]['fileId'];
@@ -177,12 +206,12 @@
       },
       uploadSuccess: function (response, file, fileList) {
         this.uploadModalFlag = false;
-        this.$Notice.success("<p>上传成功</p>")
+        this.$Message.success("上传成功")
         this.reload();
       },
       uploadError: function (error, file, fileList) {
         this.clearFiles();
-        this.$Notice.error("上传失败" + error)
+        this.$Message.error("上传失败" + error)
         this.uploadModalFlag = true;
       }
     },

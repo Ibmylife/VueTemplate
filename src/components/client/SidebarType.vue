@@ -23,7 +23,7 @@
       data['pageNum'] = this.pageNum;
       data['order'] = 'desc';
       data['properties'] = 'updateTime'
-      this.$ajax.get(url, {params: this.$qs.parse(data)}).then((response) => {//这里使用了ES6的语法
+      this.$ajax.get(url, {params: this.$qs.parse(data)}).then((response) => {
         if (!response.data.successFlag) {
           this.$Message.info(response.data.message)
         }
@@ -32,9 +32,8 @@
           this.types[i] = contents[i];
         }
         this.types = contents;
-        //请求成功返回的数据
       }).catch((error) => {
-        console.log(error)       //请求失败返回的数据
+        console.log(error)
       })
     },
     data() {
@@ -42,7 +41,7 @@
         types: {},
         pageSize: Global.siderbarTypePageSize,
         pageNum: Global.siderbarTypePageNum,
-        articlesTypeUrl: 'http://www.niejiahao.cn:8080/articlesTypes'
+        articlesTypeUrl: 'http://www.niejiahao.cn:8080/frontend/articlesTypes/fontend'
       }
     },
     methods: {

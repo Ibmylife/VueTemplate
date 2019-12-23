@@ -2,8 +2,14 @@
   <div>
     <!--基本数据图-->
     <Row>
-      <Col span="24">
+      <Col span="2">
+        <p></p>
+      </Col>
+      <Col span="20">
         <ve-line :data="chartData"></ve-line>
+      </Col>
+      <Col span="2">
+        <p></p>
       </Col>
     </Row>
     <br/>

@@ -45,10 +45,10 @@
 
 <script>
   export default {
-    name: "ArticleTimeList",
+    name: "ArticleTypeList",
     mounted() {
       var data = {};
-      var url = '/rest/bolg-client/artclestype';
+      var url = 'http://www.niejiahao.cn:8080/frontend/articlesTypes/type';
       data['pageSize'] = this.pages.pageSize;
       data['pageNum'] = this.pages.pageNum;
       data['type'] = this.type;
@@ -74,7 +74,7 @@
     watch: {
       'pages.pageNum': function () {
         let data = {};
-        let url = '/rest/bolg-client/artclestype';
+        let url = 'http://www.niejiahao.cn:8080/frontend/articlesTypes/type';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['type'] = this.type;
@@ -83,19 +83,9 @@
         this.showContent(url, data);
       }
       ,
-      'pages.pageSize': function () {
-        let data = {};
-        let url = '/rest/bolg-client/artclestype';
-        data['pageSize'] = this.pages.pageSize;
-        data['pageNum'] = this.pages.pageNum;
-        data['type'] = this.type;
-        data['order'] = 'desc';
-        data['properties']='updateTime'
-        this.showContent(url, data);
-      },
       type: function () {
         let data = {};
-        let url = '/rest/bolg-client/artclestype';
+        let url = 'http://www.niejiahao.cn:8080/frontend/articlesTypes/type';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['type'] = this.type;

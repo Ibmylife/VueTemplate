@@ -1,26 +1,7 @@
 <template>
   <div>
-    <Row>
-      <Col span="6">
-        <DatePicker @on-change="searchDateChange" type="daterange" placeholder="请选择日期"
-                    format="yyyy-MM-dd"></DatePicker>
-      </Col>
-      <Col span="6">
-        <Input @on-change="searchTextChange" v-model="inputValue" placeholder="Enter something..." clearable>
-          <Icon type="ios-search" slot="suffix"/>
-        </Input>
-      </Col>
-      <Col span="6">
-        <p></p>
-      </Col>
-      <Col span="6">
-        <p></p>
-      </Col>
-    </Row>
-    <br/>
     <Table stripe :data="tableData3" :columns="tableColumns3">
       <template slot-scope="{ row, index }" slot="action">
-        <!--        <Button type="info" size="small" @click="showArticle(index)">详情</Button>-->
         <Button type="primary" size="small" @click="editorArticle(index)">编辑</Button>
         <Button type="error" size="small" @click="deleteArticle(index)">删除</Button>
       </template>

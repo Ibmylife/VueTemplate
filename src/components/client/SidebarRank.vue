@@ -25,16 +25,15 @@
       data['pageNum'] = this.pageNum;
       data['order'] = 'desc';
       data['properties'] = 'browerCount'
-      this.$ajax.get(url, {params: this.$qs.parse(data)}).then((response) => {//这里使用了ES6的语法
+      this.$ajax.get(url, {params: this.$qs.parse(data)}).then((response) => {
         if (!response.data.successFlag) {
           this.$Message.info(response.data.message)
         }
         let contents = response.data.object.content;
         this.articles={};
         this.articles = contents;
-        //请求成功返回的数据
       }).catch((error) => {
-        console.log(error)       //请求失败返回的数据
+        console.log(error)
       })
     },
     data() {
@@ -42,7 +41,7 @@
         articles: {},
         pageSize: Global.siderbarRankPageSize,
         pageNum: Global.siderbarRankPageNum,
-        articlesUrl: 'http://www.niejiahao.cn:8080/artcles'
+        articlesUrl: 'http://www.niejiahao.cn:8080/frontend/artcles'
       }
     },
     methods: {

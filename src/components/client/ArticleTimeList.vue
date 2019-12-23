@@ -48,7 +48,7 @@
     name: "ArticleTimeList",
     mounted() {
       var data = {};
-      var url = '/rest/bolg-client/artclestime';
+      var url = 'http://www.niejiahao.cn:8080/frontend/artcles';
       data['pageSize'] = this.pages.pageSize;
       data['pageNum'] = this.pages.pageNum;
       data['time'] = this.time;
@@ -74,7 +74,7 @@
     watch: {
       'pages.pageNum': function () {
         let data = {};
-        let url = '/rest/bolg-client/artclestime';
+        let url = 'http://www.niejiahao.cn:8080/frontend/artcles';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['time'] = this.time;
@@ -85,7 +85,7 @@
       ,
       'pages.pageSize': function () {
         let data = {};
-        let url = '/rest/bolg-client/artclestime';
+        let url = 'http://www.niejiahao.cn:8080/frontend/artcles';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['time'] = this.time;
@@ -95,7 +95,7 @@
       },
       time: function () {
         let data = {};
-        let url = '/rest/bolg-client/artclestime';
+        let url = 'http://www.niejiahao.cn:8080/frontend/artcles';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['time'] = this.time;

@@ -43,70 +43,11 @@
     name: "Slider",
     data() {
       return {
-        articles: [
-          {
-            firsttopic: 'ceshi',
-            brower_count: '2',
-            article_id: '12',
-          },
-          {
-            firsttopic: 'ceshi',
-            brower_count: '2',
-            article_id: '12',
-          },
-          {
-            firsttopic: 'ceshi',
-            brower_count: '2',
-            article_id: '12',
-          },
-          {
-            firsttopic: 'ceshi',
-            brower_count: '2',
-            article_id: '12',
-          }
-        ]
+        articles: []
         ,
-        types:[
-          {
-            name:'java',
-            count:'12',
-            typeid:'2'
-          },
-          {
-            name:'javascript',
-            count:'13',
-            typeid:'2'
-          },
-          {
-            name:'sql',
-            count:'14',
-            typeid:'2'
-          },
-          {
-            name:'spring',
-            count:'15',
-            typeid:'2'
-          }
-        ]
+        types:[]
         ,
-        times:[
-          {
-            date:'2019-02-03',
-            count:'12',
-          },
-          {
-            date:'2019-02-04',
-            count:'13',
-          },
-          {
-            date:'2019-02-05',
-            count:'14',
-          },
-          {
-            date:'2019-02-06',
-            count:'15',
-          }
-        ]
+        times:[]
       }
     },
     methods: {

@@ -1,14 +1,19 @@
 <template>
   <div>
-    <Divider></Divider>
+    <br/>
     <Row>
-      <Input v-model="article.firstTopic" icon="ios-clock-outline" placeholder="一级标题"/>
-    </Row>
-    <Divider></Divider>
-    <Row>
-      <Col span="19">
-        <!--<mavon-editor v-model="value" @imgAdd='editorUpdataImgs' @change="$change" ref="editor" id="editor" @imgDel="$imgDel"/>-->
-        <mavon-editor v-model="value" @change="$change" @imgAdd="$imgAdd" @imgDel="$imgDel" ref="editor" id="editor"/>
+      <Col span="18">
+       <Row>
+         <!--<mavon-editor v-model="value" @imgAdd='editorUpdataImgs' @change="$change" ref="editor" id="editor" @imgDel="$imgDel"/>-->
+         <mavon-editor v-model="value" @change="$change" @imgAdd="$imgAdd" @imgDel="$imgDel" ref="editor" id="editor"/>
+       </Row>
+        <Row>
+          <Button type="info" size="small" @click="saveDraft">保存草稿</Button>
+          <Button type="info" size="small" @click="publish">保存草稿</Button>
+        </Row>
+      </Col>
+      <Col span="1">
+        <p></p>
       </Col>
       <Col span="5">
         <Row>
@@ -18,26 +23,13 @@
               文章发布
             </p>
             <Row>
-              <Input v-model="article.secondTopic" icon="ios-clock-outline" type="textarea" placeholder="二级标题"
-                     style="height: 100%"/>
+              <Input v-model="article.firstTopic" icon="ios-clock-outline" type="textarea" placeholder="一级标题"/>
             </Row>
             <Divider/>
-<!--            <Row>-->
-<!--              <RadioGroup v-model="vertical" vertical>-->
-<!--                <Radio label="comment" default>-->
-<!--                  <Icon type="social-apple"></Icon>-->
-<!--                  <span>开启评论</span>-->
-<!--                </Radio>-->
-<!--                <Radio label="uncomment">-->
-<!--                  <Icon type="social-android"></Icon>-->
-<!--                  <span>关闭评论</span>-->
-<!--                </Radio>-->
-<!--                <Divider/>-->
-<!--                <Button type="primary" @click="saveToEditor">保存草稿</Button>-->
-<!--                <Button type="primary" style="margin-left: 60px;" @click="publishArticle">发布</Button>-->
-<!--              </RadioGroup>-->
-<!--            </Row>-->
-<!--            <Divider/>-->
+            <Row>
+              <Input v-model="article.secondTopic" icon="ios-clock-outline" type="textarea" placeholder="二级标题"/>
+            </Row>
+            <Divider/>
             <Row>
               <Col span="4">
                 发布时间:
@@ -90,7 +82,6 @@
         cronTime: 0,
         vertical: '',
         articleTypes: '',
-        // type: '',
         loading: false,
         content: '',
         article: {},
@@ -185,7 +176,8 @@
           this.$ajax({
             method: 'post',
             url: this.articleUrl,
-            data: data
+            data: data,
+            headers: {'Authorization': token}
           }).then((res) => {
             console.log(res);
             if (!res.data.successFlag) {
@@ -274,6 +266,12 @@
         let fileNameTemp = fileName[1].toString().substr(fileName[1].lastIndexOf("/") + 1);
         let delFlag = this.$refs.editor.$imgDelByFilename(fileName[0].name.toString());
         alert(delFlag)
+      },
+      saveDraft:function () {
+
+      },
+      publish:function () {
+
       }
     },
     watch: {

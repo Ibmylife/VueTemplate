@@ -1,22 +1,19 @@
 <template>
   <div>
-    <Divider>
-      类型树形图
-    </Divider>
+    <Divider>类型树形图</Divider>
     <Row>
-      <div id="myChart" :style="{width: '1480px', height: '300px'}" ref="mychart"></div>
+      <Col span="24">
+        <div id="myChart" :style="{width: '1480px', height: '300px'}" ref="mychart"></div>
+      </Col>
     </Row>
-    <Divider>类型详情表</Divider>
+    <Divider/>
     <Row>
       <Row>
         <Col span="6">
-          <DatePicker @on-change="searchDateChange" type="daterange" placeholder="请选择日期"
-                      format="yyyy-MM-dd"></DatePicker>
+          <p></p>
         </Col>
         <Col span="6">
-          <Input @on-change="searchTextChange" v-model="inputValue" placeholder="Enter something..." clearable>
-            <Icon type="ios-search" slot="suffix"/>
-          </Input>
+          <p></p>
         </Col>
         <Col span="6">
           <p></p>
@@ -27,6 +24,7 @@
           </Button>
         </Col>
       </Row>
+      <br/>
       <Table border="true" stripe="true" show-header="true" :data="tableData3" :columns="tableColumns3">
         <template slot-scope="{ row, index }" slot="action">
           <Button type="info" size="small" @click="showDetail(index)">详情</Button>
@@ -68,13 +66,6 @@
           <FormItem label="用户名" prop="name" >
             <Input v-model="articleType.userId" placeholder="Enter your name" :disabled="true"></Input>
           </FormItem>
-          <!--看情况,现在不需要-->
-          <!--<FormItem label="是否为根节点" prop="name">-->
-          <!--<i-switch v-model="articleType.rootFlag" size="large">-->
-          <!--<span slot="open">On</span>-->
-          <!--<span slot="close">Off</span>-->
-          <!--</i-switch>-->
-          <!--</FormItem>-->
         </Form>
       </Modal>
     </Row>

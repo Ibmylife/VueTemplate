@@ -90,15 +90,20 @@ export default {
     // }
     //获取session数据
     Vue.prototype.getUser = function () {
-      return JSON.parse(sessionStorage.getItem('user'));
+      return sessionStorage.getItem("userName");
     }
     Vue.prototype.getColWithBootstrap = function (size) {
-      let eachSize=12/size
-      return "col-md-"+eachSize;
+      let eachSize = 12 / size
+      return "col-md-" + eachSize;
     }
     Vue.prototype.getColSizeWithBootstrap = function (size) {
-      let eachSize=12/size
+      let eachSize = 12 / size
       return eachSize;
+    }
+    Vue.prototype.getToken = function () {
+      let tokenHead = sessionStorage.getItem("tokenHead");
+      let token = sessionStorage.getItem("token");
+      return (tokenHead + token);
     }
   }
 }

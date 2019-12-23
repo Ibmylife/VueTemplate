@@ -56,16 +56,22 @@
           return
         }
         let param = new window.FormData();
+        // param.append("userName", this.username.trim());
         param.append("userName", this.username.trim());
         param.append("userPassword", this.password.trim());
         this.$ajax.post(this.loginUrl, param).then((res) => {
           let data = res.data;
           if (!data.successFlag) {
-            alert(data.message)
+            this.$Notice.error(data.message)
             return;
           }
           let object = data.object;
-          sessionStorage.setItem('user', JSON.stringify(object));
+          let tokenHead = object.tokenHead;
+          let token = object.token;
+          let userName = object.userName;
+          sessionStorage.setItem('tokenHead', tokenHead);
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('userName', userName);
           this.$router.push("/admin/home.html");
         }).catch((err) => {
           console.log(err);
@@ -88,9 +94,6 @@
           console.log(err)
         })
       },
-      // getscreenHeight: function () {
-      //   return window.screen.availHeight;
-      // }
     },
     data() {
       return {

@@ -1,41 +1,7 @@
 <template>
   <div>
-    <div style="margin: 10px">
-      Display border
-      <i-switch v-model="showBorder" style="margin-right: 5px"></i-switch>
-      Display stripe
-      <i-switch v-model="showStripe" style="margin-right: 5px"></i-switch>
-      Display index
-      <i-switch v-model="showIndex" style="margin-right: 5px"></i-switch>
-      Display multi choice
-      <i-switch v-model="showCheckbox" style="margin-right: 5px"></i-switch>
-      Display header
-      <i-switch v-model="showHeader" style="margin-right: 5px"></i-switch>
-      Table scrolling
-      <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
-      表格大小
-      <Radio-group v-model="tableSize" type="button">
-        <Radio label="large">大</Radio>
-        <Radio label="default">默认</Radio>
-        <Radio label="small">小</Radio>
-      </Radio-group>
-      <br>
-      <br>
-<!--      <Row>-->
-<!--        <Col span="6">-->
-<!--          <DatePicker @on-change="searchDateChange" type="daterange" placeholder="请选择日期"-->
-<!--                      format="yyyy-MM-dd"></DatePicker>-->
-<!--        </Col>-->
-<!--        <Col span="6">-->
-<!--          <Input @on-change="searchTextChange" v-model="inputValue" placeholder="Enter something..." clearable>-->
-<!--            <Icon type="ios-search" slot="suffix"/>-->
-<!--          </Input>-->
-<!--        </Col>-->
-<!--      </Row>-->
-    </div>
     <Row>
-      <Table stripe :border="showBorder" :stripe="showStripe" :show-header="showHeader" :height="fixedHeader ? 250 : ''"
-             :size="tableSize" :data="tableData3" :columns="tableColumns3">
+      <Table stripe border stripe show-header height="550" :data="tableData3" :columns="tableColumns3">
         <template slot-scope="{ row, index }" slot="action">
           <Button type="info" size="small" @click="showArticle(index)">详情</Button>
           <Button type="primary" size="small" @click="editorArticle(index)">编辑</Button>
@@ -60,8 +26,8 @@
       </div>
       <Row>
         <Col span="23">
-                    <vue-markdown :source="contentHtml" style="width: 80%"></vue-markdown>
-<!--          <mavon-editor v-model="contentHtml" :editable="false" :toolbarsFlag="false" :subfield="false" :navigation="true" ref="editor" id="editor"/>-->
+          <vue-markdown :source="contentHtml" style="width: 80%"></vue-markdown>
+          <!--          <mavon-editor v-model="contentHtml" :editable="false" :toolbarsFlag="false" :subfield="false" :navigation="true" ref="editor" id="editor"/>-->
         </Col>
       </Row>
       <Divider/>
@@ -93,20 +59,7 @@
         inputValue: '',
         pageSize: 0,
         currentPage: 1,
-        tableData3: [
-          {
-            firstTopic: 'JAVA5',
-            browerCount: '1',
-            likeCount: '2',
-            typeId: '23FAA',
-            createTime: '2019-2-03',
-            updateTime: '2019-2-05',
-            secondTopic: '阿发尽快发了房间',
-            userId: '123',
-            articleId: '123',
-            content: 'https://blog.csdn.net/xiangjai/article/details/7523100',
-          }
-        ],
+        tableData3: [],
         showBorder: false,
         showStripe: false,
         showHeader: true,
@@ -128,24 +81,19 @@
     computed: {
       tableColumns3() {
         let columns = [];
-        if (this.showCheckbox) {
           columns.push({
             type: 'selection',
             width: 60,
             align: 'center'
           })
-        }
-        if (this.showIndex) {
           columns.push({
             type: 'index',
             width: 60,
             align: 'center'
           })
-        }
         columns.push({
           title: '一级标题',
           key: 'firstTopic',
-          // sortable: true
         });
         columns.push({
           title: '浏览数',
@@ -153,47 +101,11 @@
         });
         columns.push({
           title: '点赞数',
-          key: 'likeCount',
-          // sortable: true,
-          // filters: [
-          //   {
-          //     label: 'Greater than 25',
-          //     value: 1
-          //   },
-          //   {
-          //     label: 'Less than 25',
-          //     value: 2
-          //   }
-          // ],
-          // filterMultiple: false,
-          // filterMethod(value, row) {
-          //   if (value === 1) {
-          //     return row.age > 25;
-          //   } else if (value === 2) {
-          //     return row.age < 25;
-          //   }
-          // }
+          key: 'likeCount'
         });
         columns.push({
           title: '类型',
-          key: 'typeId',
-          // filters: [
-          //   {
-          //     label: 'New York',
-          //     value: 'New York'
-          //   },
-          //   {
-          //     label: 'London',
-          //     value: 'London'
-          //   },
-          //   {
-          //     label: 'Sydney',
-          //     value: 'Sydney'
-          //   }
-          // ],
-          // filterMethod(value, row) {
-          //   return row.address.indexOf(value) > -1;
-          // }
+          key: 'typeId'
         });
         columns.push({
           title: '创建时间',
@@ -270,7 +182,6 @@
           this.article.typeId = res.data.object.typeId
           this.article.updateTime = res.data.object.updateTime
           this.article.userId = res.data.object.userId
-          alert(this.article.content)
           this.$ajax({
             method: 'get',
             url: this.article.content,

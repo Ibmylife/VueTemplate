@@ -45,7 +45,7 @@
             </template>
             <MenuItem name="1-1">
               <router-link to="/admin/home.html">
-                <span><Icon type="md-home"/>{{user.userName}}</span>
+                <span><Icon type="md-home"/>{{user}}</span>
               </router-link>
             </MenuItem>
           </Submenu>
