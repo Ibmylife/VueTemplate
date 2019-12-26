@@ -67,7 +67,7 @@
         },
         dateStart: '',
         dateEnd: '',
-        userUrl: 'http://www.niejiahao.cn:8080/user/',
+        userUrl: 'http://www.niejiahao.cn:8080/user',
         userFlag: false,
         user: {}
       }
@@ -161,7 +161,11 @@
     },
     methods: {
       showTable: function (data) {
-        this.$ajax.get(this.userUrl, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          url: this.userUrl,
+          headers: {'Authorization': this.getToken()},
+          params: this.$qs.parse(data)
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.object.message);
             return;
@@ -182,22 +186,23 @@
         this.userFlag = true;
       },
       deleteArticle: function (index) {
-          let user = this.tableData3[index];
-          this.$ajax({
-            method: 'delete',
-            url: this.userUrl + user.userId,
-          }).then((res) => {
-            console.log(res);
-            if (!res.data.successFlag) {
-              this.$Message.error(res.data.message);
-              return;
-            }
-            this.$Message.success(res.data.message);
-            //重新加载信息
-            this.reload();
-          }).catch((err) => {
-            console.log(err);
-          });
+        let user = this.tableData3[index];
+        this.$ajax({
+          method: 'delete',
+          url: this.userUrl +"/" +user.userId,
+          headers: {'Authorization': this.getToken()},
+        }).then((res) => {
+          console.log(res);
+          if (!res.data.successFlag) {
+            this.$Message.error(res.data.message);
+            return;
+          }
+          this.$Message.success(res.data.message);
+          //重新加载信息
+          this.reload();
+        }).catch((err) => {
+          console.log(err);
+        });
       },
       searchTextChange: function () {
 

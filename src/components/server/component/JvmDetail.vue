@@ -431,7 +431,12 @@
     },
     methods: {
       getData: function (url, data) {
-        this.$ajax.get(url, {params: this.$qs.parse(data)})
+        this.$ajax({
+          method:'get',
+          url: url,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        })
           .then((res) => {
             if (!res.data.success) {
               console.log(res)
@@ -465,7 +470,12 @@
         //显示堆内存时间
         let data = {};
         let url = this.headMemoryUrl;
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: url,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;
@@ -480,7 +490,12 @@
         //显示堆内存时间
         let data = {};
         let url = this.jvmClassesUrl;
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: url,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;
@@ -495,7 +510,12 @@
         //显示堆内存时间
         let data = {};
         let url = this.jvmTrheadsUrl;
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: url,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;
@@ -510,7 +530,12 @@
         //显示堆内存时间
         let data = {};
         let url = this.jvmCpuUrl;
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: url,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;
@@ -551,7 +576,12 @@
         //显示堆内存时间
         let data = {};
         let url = this.jvmMemoryUrl;
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: url,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;
@@ -566,7 +596,12 @@
         //显示堆内存时间
         let data = {};
         let url = this.jvmSysUrl;
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: url,
+          headers: {'Authorization': this.getToken()},
+          params: this.$qs.parse(data)
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
             return;

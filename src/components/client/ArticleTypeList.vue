@@ -48,12 +48,12 @@
     name: "ArticleTypeList",
     mounted() {
       var data = {};
-      var url = 'http://www.niejiahao.cn:8080/frontend/articlesTypes/type';
+      var url = 'http://www.niejiahao.cn:8080/frontend/artcles/type';
       data['pageSize'] = this.pages.pageSize;
       data['pageNum'] = this.pages.pageNum;
       data['type'] = this.type;
       data['order'] = 'desc';
-      data['properties']='updateTime'
+      data['properties'] = 'updateTime';
       this.showContent(url, data);
     },
     data() {
@@ -74,23 +74,23 @@
     watch: {
       'pages.pageNum': function () {
         let data = {};
-        let url = 'http://www.niejiahao.cn:8080/frontend/articlesTypes/type';
+        let url = 'http://www.niejiahao.cn:8080/frontend/artcles/type';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['type'] = this.type;
         data['order'] = 'desc';
-        data['properties']='updateTime'
+        data['properties'] = 'updateTime'
         this.showContent(url, data);
       }
       ,
       type: function () {
         let data = {};
-        let url = 'http://www.niejiahao.cn:8080/frontend/articlesTypes/type';
+        let url = 'http://www.niejiahao.cn:8080/frontend/artcles/type';
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum;
         data['type'] = this.type;
         data['order'] = 'desc';
-        data['properties']='updateTime'
+        data['properties'] = 'updateTime'
         this.showContent(url, data);
       },
       $route() {
@@ -122,19 +122,23 @@
       },
       showContent: function (url, data) {
         this.$ajax({
-          method: 'post',
+          method: 'get',
           url: url,
-          data: this.$qs.stringify(data)
-        }).then((response) => {          //这里使用了ES6的语法
+          params: data
+        }).then((response) => {
+          if (!response.data.successFlag) {
+            this.$Message.error(response.data.message);
+            alert(response.data.message)
+            return;
+          }
           this.pages.total = response.data.object.total;
           this.pages.pageNum = response.data.object.pageNum;
           this.pages.pageSize = response.data.object.pageSize;
           let contents = response.data.object.content;
           this.articles = {};
           this.articles = contents;
-          //请求成功返回的数据
         }).catch((error) => {
-          console.log(error)       //请求失败返回的数据
+          console.log(error)
         })
       }
     }

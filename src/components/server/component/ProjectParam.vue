@@ -57,7 +57,7 @@
     data() {
       return {
         tableData3: [],
-        paramUrl: 'http://www.niejiahao.cn:8080/projectparam/',
+        paramUrl: 'http://www.niejiahao.cn:8080/projectparam',
         param: {},
         paramFlag: false,
         addFlag: false
@@ -89,7 +89,12 @@
     },
     methods: {
       showTable: function (data) {
-        this.$ajax.get(this.paramUrl + "all", {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method:'get',
+          url: this.paramUrl + "/all",
+          headers: {'Authorization': this.getToken()},
+          params: this.$qs.parse(data)
+        }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.object.message);
             return;
@@ -113,7 +118,8 @@
         let param = this.tableData3[index];
         this.$ajax({
           method: 'delete',
-          url: this.paramUrl + param.key,
+          url: this.paramUrl +"/"+ param.key,
+          headers: {'Authorization': this.getToken()},
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -135,7 +141,8 @@
         this.$ajax({
           method: 'put',
           url: this.paramUrl,
-          data: this.$qs.stringify(data)
+          data: this.$qs.stringify(data),
+          headers: {'Authorization': this.getToken()},
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -157,7 +164,8 @@
         this.$ajax({
           method: 'post',
           url: this.paramUrl,
-          data: this.$qs.stringify(data)
+          data: this.$qs.stringify(data),
+          headers: {'Authorization': this.getToken()},
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {

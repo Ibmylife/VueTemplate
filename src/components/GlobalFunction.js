@@ -92,6 +92,9 @@ export default {
     Vue.prototype.getUser = function () {
       return sessionStorage.getItem("userName");
     }
+    Vue.prototype.getId = function () {
+      return sessionStorage.getItem("id");
+    }
     Vue.prototype.getColWithBootstrap = function (size) {
       let eachSize = 12 / size
       return "col-md-" + eachSize;

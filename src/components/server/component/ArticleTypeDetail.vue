@@ -2,8 +2,14 @@
   <div>
     <Divider>类型树形图</Divider>
     <Row>
-      <Col span="24">
-        <div id="myChart" :style="{width: '1480px', height: '300px'}" ref="mychart"></div>
+      <Col span="2">
+        <p></p>
+      </Col>
+      <Col span="20">
+        <div id="myChart" :style="{width: '100%', height: '260px'}" ref="mychart"></div>
+      </Col>
+      <Col span="2">
+        <p></p>
       </Col>
     </Row>
     <Divider/>
@@ -63,7 +69,7 @@
               </Option>
             </Select>
           </FormItem>
-          <FormItem label="用户名" prop="name" >
+          <FormItem label="用户名" prop="name">
             <Input v-model="articleType.userId" placeholder="Enter your name" :disabled="true"></Input>
           </FormItem>
         </Form>
@@ -113,18 +119,18 @@
         typeparent: {},
         editorFlag: true,
         articleTypeAdd: {
-          userId: this.getUser().userId,
+          userId: this.getId(),
           typeName: '',
           parentId: '',
           createTime: '',
           updateTime: '',
-          rootFlag: false
+          rootFlag: 2
         },
         typeAddModalFlag: false,
         myChart: '',
-        articleTypeUrl: "http://www.niejiahao.cn:8080/articlesTypes/",
-        articleTypeChartUrl: "http://www.niejiahao.cn:8080/articlesTypes/articlestypechart/",
-        articleParentTypeUrl: "http://www.niejiahao.cn:8080/articlesTypes/search/parents/",
+        articleTypeUrl: "http://www.niejiahao.cn:8080/articlesTypes",
+        articleTypeChartUrl: "http://www.niejiahao.cn:8080/articlesTypes/articlestypechart",
+        articleParentTypeUrl: "http://www.niejiahao.cn:8080/articlesTypes/search/parents",
       }
     }
     ,
@@ -190,10 +196,18 @@
     ,
     methods: {
       addType: function () {
+        let data = {};
+        data['userId'] = this.articleTypeAdd.userId;
+        data['typeName'] = this.articleTypeAdd.typeName;
+        data['parentId'] = this.articleTypeAdd.parentId;
+        data['createTime'] = this.articleTypeAdd.createTime;
+        data['updateTime'] = this.articleTypeAdd.updateTime;
+        data['rootFlag'] = this.articleTypeAdd.rootFlag;
         this.$ajax({
           method: 'post',
           url: this.articleTypeUrl,
-          data: this.$qs.stringify(this.articleTypeAdd),
+          data: this.$qs.stringify(data),
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message)
@@ -214,6 +228,7 @@
             method: 'put',
             url: this.articleTypeUrl,
             data: this.$qs.stringify(this.articleType),
+            headers: {'Authorization': this.getToken()}
           }).then((res) => {
             if (!res.data.successFlag) {
               this.$Message.error(res.data.message)
@@ -236,6 +251,7 @@
         this.$ajax({
           method: 'post',
           url: this.articleTypeChartUrl,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
@@ -395,38 +411,45 @@
       },
       showTables: function () {
         let data = {};
-        data['userId'] = this.user.userId;
+        data['userId'] = this.getId();
         data['pageSize'] = this.pages.pageSize
         data['pageNum'] = this.pages.pageNum
-        this.$ajax.get(this.articleTypeUrl, {params: this.$qs.parse(data)})
-          .then((res) => {
-            if (!res.data.successFlag) {
-              console.log(res.data.message)
-              this.$Notice.error(res.data.message)
-              return;
-            }
-            this.tableData3 = res.data.object.content;
-            this.pages.pageNum = res.data.object.pageNum + 1
-            this.pages.pageSize = res.data.object.pageSize
-            this.pages.total = res.data.object.total
-          }).catch((err) => {
+        this.$ajax({
+          method: 'get',
+          url: this.articleTypeUrl,
+          params: data,
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
+          if (!res.data.successFlag) {
+            console.log(res.data.message)
+            this.$Message.error(res.data.message)
+            return;
+          }
+          this.tableData3 = res.data.object.content;
+          this.pages.pageNum = res.data.object.pageNum + 1
+          this.pages.pageSize = res.data.object.pageSize
+          this.pages.total = res.data.object.total
+        }).catch((err) => {
           console.log(err);
         });
       }
       ,
       parentType: function () {
         let data = {};
-        data["userId"]=this.user.userId;
-
-        this.$ajax.get(this.articleParentTypeUrl, {params: this.$qs.parse(data)})
-          .then((res) => {
-            console.log(res);
-            if (!res.data.successFlag) {
-              console.log(res.data.message)
-              return;
-            }
-            this.typeparent = res.data.object;
-          }).catch((err) => {
+        data["userId"] = this.getId();
+        this.$ajax({
+          method: 'get',
+          url: this.articleParentTypeUrl,
+          params: data,
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
+          console.error(res)
+          if (!res.data.successFlag) {
+            this.$Message.error(res.data.message)
+            return;
+          }
+          this.typeparent = res.data.object;
+        }).catch((err) => {
           console.log(err);
         });
       }
@@ -445,7 +468,8 @@
         let type = this.tableData3[index];
         this.$ajax({
           method: 'get',
-          url: this.articleTypeUrl + type.typeId,
+          url: this.articleTypeUrl + "/" + type.typeId,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -464,7 +488,8 @@
         let type = this.tableData3[index];
         this.$ajax({
           method: 'get',
-          url: this.articleTypeUrl + type.typeId,
+          url: this.articleTypeUrl + "/" + type.typeId,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {
@@ -483,7 +508,8 @@
         let type = this.tableData3[index];
         this.$ajax({
           method: 'delete',
-          url: this.articleTypeUrl + type.typeId,
+          url: this.articleTypeUrl + "/" + type.typeId,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           console.log(res);
           if (!res.data.successFlag) {

@@ -33,7 +33,9 @@
         <div>
           <Upload multiple type="drag" action="http://www.niejiahao.cn:8080/files/artices" name="file"
                   :on-success="uploadSuccess"
-                  :on-error="uploadError">
+                  :on-error="uploadError"
+                  :headers="{'Authorization': this.getToken()}"
+          >
             <div style="padding: 20px 0">
               <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
               <p>点击或者拉取文件到这上传</p>
@@ -132,43 +134,44 @@
         let data = {};
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum - 1;
-        let url = 'http://www.niejiahao.cn:8080/files/';
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
-          if (!res.data.successFlag) {
-            this.$Message.error(res.data.message);
-            return;
-          }
-          this.pages.pageSize = res.data.object.pageSize;
-          this.pages.pageNum = res.data.object.pageNum + 1;
-          this.pages.total = res.data.object.total;
-          this.tableFiles = res.data.object.content
-          //请求成功返回的数据
-        }).catch((error) => {
-          console.log(error)       //请求失败返回的数据
-        })
-      },
-      /**
-       * 详情数据
-       */
-      getDetailData: function () {
-        let data = new window.FormData();
-        let url = '';
-        this.$ajax({
-          method: 'post',
+        let url = 'http://www.niejiahao.cn:8080/files';
+        let token = this.getToken();
+        let temThis = this;
+        $.ajax({
           url: url,
+          dataType: 'json',
+          async: true,
+          headers: {'Authorization': token},
           data: data,
-        }).then((res) => {
-          //这里使用了ES6的语法
-          if (!res.data.successFlag) {
-            this.$Message.error(res.data.message);
-            return;
+          type: 'GET',
+          success: function (res) {
+            if (!res.successFlag) {
+              this.$Message.error(res.message);
+              return;
+            }
+            console.log(res.object.pageSize)
+            temThis.pages.pageSize = res.object.pageSize;
+            temThis.pages.pageNum = res.object.pageNum + 1;
+            temThis.pages.total = res.object.total;
+            temThis.tableFiles = res.object.content
+          },
+          error: function (error) {
+            console.log(error)       //请求失败返回的数据
           }
-          this.detailFiles = res.data.object.content
-          this.reload();
-          //请求成功返回的数据
-        }).catch((error) => {
-          console.log(error)       //请求失败返回的数据
-        })
+        });
+        // this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        //   if (!res.data.successFlag) {
+        //     this.$Message.error(res.data.message);
+        //     return;
+        //   }
+        //   this.pages.pageSize = res.data.object.pageSize;
+        //   this.pages.pageNum = res.data.object.pageNum + 1;
+        //   this.pages.total = res.data.object.total;
+        //   this.tableFiles = res.data.object.content
+        //   //请求成功返回的数据
+        // }).catch((error) => {
+        //   console.log(error)       //请求失败返回的数据
+        // })
       },
       clickUploadFile: function () {
         this.uploadModalFlag = true;
@@ -186,9 +189,11 @@
       },
       remove: function (index) {
         let fileId = this.tableFiles[index]['fileId'];
+        let token = this.getToken();
         this.$ajax({
           method: 'delete',
           url: 'http://www.niejiahao.cn:8080/files/' + fileId,
+          headers: {'Authorization': token}
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);

@@ -148,10 +148,15 @@
         let data = {};
         data['pageSize'] = this.pages.pageSize;
         data['pageNum'] = this.pages.pageNum - 1;
-        let url = 'http://www.niejiahao.cn:8080/events/';
+        let url = 'http://www.niejiahao.cn:8080/events';
         data['order'] = 'desc';
         data['properties'] = 'eventUpdatetime'
-        this.$ajax.get(url, {params: this.$qs.parse(data)}).then((res) => {
+        this.$ajax({
+          method: 'get',
+          headers: {'Authorization': this.getToken()},
+          url: url,
+          params: this.$qs.parse(data)
+        }).then((res) => {
           //这里使用了ES6的语法
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);

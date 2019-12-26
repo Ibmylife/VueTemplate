@@ -1,11 +1,17 @@
 <template>
   <div>
     <Row>
+
+    </Row>
+    <Row>
       <Table stripe border stripe show-header height="550" :data="tableData3" :columns="tableColumns3">
         <template slot-scope="{ row, index }" slot="action">
           <Button type="info" size="small" @click="showArticle(index)">详情</Button>
           <Button type="primary" size="small" @click="editorArticle(index)">编辑</Button>
           <Button type="error" size="small" @click="deleteArticle(index)">删除</Button>
+          <Button type="success" size="small" @click="publishArticle(index)">发布</Button>
+          <Button type="success" size="small" @click="publishArticleTime(index)">定时发布</Button>
+          <Button type="warning" size="small" @click="cancelArticle(index)">取消发布</Button>
         </template>
       </Table>
       <div style="margin: 10px;overflow: hidden">
@@ -75,22 +81,22 @@
         showArticleModal: false,
         contentHtml: '',
         article: {},
-        articlesUrl: 'http://www.niejiahao.cn:8080/artcles/'
+        articlesUrl: 'http://www.niejiahao.cn:8080/artcles'
       }
     },
     computed: {
       tableColumns3() {
         let columns = [];
-          columns.push({
-            type: 'selection',
-            width: 60,
-            align: 'center'
-          })
-          columns.push({
-            type: 'index',
-            width: 60,
-            align: 'center'
-          })
+        columns.push({
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        })
+        columns.push({
+          type: 'index',
+          width: 60,
+          align: 'center'
+        })
         columns.push({
           title: '一级标题',
           key: 'firstTopic',
@@ -166,7 +172,8 @@
         let article = this.tableData3[index];
         this.$ajax({
           method: 'get',
-          url: this.articlesUrl + article.articleId
+          url: this.articlesUrl + "/" + article.articleId,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.object.message);
@@ -185,6 +192,7 @@
           this.$ajax({
             method: 'get',
             url: this.article.content,
+            headers: {'Authorization': this.getToken()}
           }).then((res) => {
             this.contentHtml = "";
             this.contentHtml = res.data;
@@ -202,7 +210,8 @@
         let article = this.tableData3[index];
         this.$ajax({
           method: 'delete',
-          url: this.articlesUrl + article.articleId,
+          url: this.articlesUrl + "/" + article.articleId,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           if (res.data.successFlag) {
             this.$Message.success(res.data.message)
@@ -230,7 +239,12 @@
       }
       ,
       showChart: function (data) {
-        this.$ajax.get(this.articlesUrl, {params: this.$qs.parse(data)})
+        this.$ajax({
+          method: 'get',
+          url: this.articlesUrl,
+          params: this.$qs.parse(data),
+          headers: {'Authorization': this.getToken()}
+        })
           .then((res) => {
             if (!res.data.successFlag) {
               this.$Message.error(res.data.message);

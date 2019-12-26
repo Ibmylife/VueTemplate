@@ -18,15 +18,15 @@
       </CellGroup>
     </Card>
     <br/>
-    <Card title="时间" icon="md-clock" :padding="0" shadow>
-      <CellGroup>
-        <div v-for="time in times">
-          <Cell v-bind:title="time.date" v-bind:extra="time.count"
-                v-bind:onclick="showDate(time.date)"/>
-        </div>
-      </CellGroup>
-    </Card>
-    <br/>
+<!--    <Card title="时间" icon="md-clock" :padding="0" shadow>-->
+<!--      <CellGroup>-->
+<!--        <div v-for="time in times">-->
+<!--          <Cell v-bind:title="time.date" v-bind:extra="time.count"-->
+<!--                v-bind:onclick="showDate(time.date)"/>-->
+<!--        </div>-->
+<!--      </CellGroup>-->
+<!--    </Card>-->
+<!--    <br/>-->
     <Card title="分类" icon="md-funnel" :padding="0" shadow>
       <CellGroup>
         <div v-for="type in types">

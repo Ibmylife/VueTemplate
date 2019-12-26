@@ -3,13 +3,9 @@
     <br/>
     <Row>
       <Col span="18">
-       <Row>
-         <!--<mavon-editor v-model="value" @imgAdd='editorUpdataImgs' @change="$change" ref="editor" id="editor" @imgDel="$imgDel"/>-->
-         <mavon-editor v-model="value" @change="$change" @imgAdd="$imgAdd" @imgDel="$imgDel" ref="editor" id="editor"/>
-       </Row>
         <Row>
-          <Button type="info" size="small" @click="saveDraft">保存草稿</Button>
-          <Button type="info" size="small" @click="publish">保存草稿</Button>
+          <!--<mavon-editor v-model="value" @imgAdd='editorUpdataImgs' @change="$change" ref="editor" id="editor" @imgDel="$imgDel"/>-->
+          <mavon-editor v-model="value" @change="$change" @imgAdd="$imgAdd" @imgDel="$imgDel" ref="editor" id="editor"/>
         </Row>
       </Col>
       <Col span="1">
@@ -32,24 +28,6 @@
             <Divider/>
             <Row>
               <Col span="4">
-                发布时间:
-              </Col>
-              <Col span="20">
-                <Input v-model="cronTimeStrTemp" icon="ios-clock-outline" placeholder="请输入CRON表达式" @on-blur="judge"/>
-              </Col>
-            </Row>
-            <Divider/>
-            <Row>
-              <Col span="4">
-                距离时间:
-              </Col>
-              <Col span="20">
-                <Progress :percent="cronTime" status="active"/>
-              </Col>
-            </Row>
-            <Divider/>
-            <Row>
-              <Col span="4">
                 类别:
               </Col>
               <Col span="20">
@@ -62,6 +40,11 @@
               </Col>
             </Row>
             <Divider/>
+            <Row>
+              <span style="float: right;">
+                <Button type="success" @click="saveDraft">保存草稿</Button>
+              </span>
+            </Row>
           </Card>
         </Row>
       </Col>
@@ -71,6 +54,7 @@
 
 <script>
   import Global from '../../Global'
+
   export default {
     name: "ArticleEditor",
     data() {
@@ -90,9 +74,9 @@
           pageSize: Global.commmMaxPageSize,
           total: 0
         },
-        articleUrl: 'http://www.niejiahao.cn:8080/artcles/',
-        articleTypesUrl: 'http://www.niejiahao.cn:8080/articlesTypes/search/subType/',
-        fileArticleUrl: 'http://www.niejiahao.cn:8080/files/artices/',
+        articleUrl: 'http://www.niejiahao.cn:8080/artcles',
+        articleTypesUrl: 'http://www.niejiahao.cn:8080/articlesTypes/search/subType',
+        fileArticleUrl: 'http://www.niejiahao.cn:8080/files/artices',
       }
     },
     methods: {
@@ -100,7 +84,6 @@
         this.cronTimeStr = this.cronTimeStrTemp;
       },
       publishArticle: function () {
-        //TODO 上传内容，
         this.saveFile("3")
       },
       saveToEditor: function () {
@@ -109,9 +92,14 @@
       },
       articleType: function () {
         let data = {};
-        data['userId'] = this.user.userId;
-        this.$ajax.get(this.articleTypesUrl, {params: this.$qs.parse(data)})
-          .then((res) => {
+        data['userId'] = this.getId();
+
+        this.$ajax({
+          url: this.articleTypesUrl,
+          params: data,
+          method: 'get',
+          headers: {'Authorization': this.getToken()}
+        }).then((res) => {
           if (!res.data.successFlag) {
             console.log(res.data.message)
             return;
@@ -122,7 +110,7 @@
         });
       },
       saveFile: function (articleFlag) {
-        if (this.isEmpty(this.user.userId)) {
+        if (this.isEmpty(this.getId())) {
           this.$Message.error("请先登录");
           this.$router.push("/login.html")
           return;
@@ -139,8 +127,12 @@
           this.$Message.error("请先输入二级标题");
           return;
         }
+        if (this.isEmpty(this.value)) {
+          this.$Message.error("请先输入内容");
+          return;
+        }
         let param = new window.FormData();
-        let file = new File([this.value],'ant.md',{
+        let file = new File([this.value], 'ant.md', {
           type: 'text/plain',
         });
         param.append("file", file);
@@ -148,7 +140,7 @@
           url: this.fileArticleUrl,
           method: 'post',
           data: param,
-          headers: {'Content-Type': 'multipart/form-data'},
+          headers: {'Content-Type': 'multipart/form-data', 'Authorization': this.getToken()},
         }).then((res) => {
           let fileResult = res.data;
           if (!fileResult.successFlag) {
@@ -162,22 +154,22 @@
             return;
           }
           let data = new window.FormData();
-          data.append("userId", this.user.userId);
+          data.append("userId", this.getId());
           data.append("typeId", this.article.typeId);
           data.append("firstTopic", this.article.firstTopic);
           data.append("secondTopic", this.article.secondTopic);
-          data.append("content",  this.article.content);
-          if (articleFlag==2){
-            data.append("articleFlag", 'false');
+          data.append("content", this.article.content);
+          if (articleFlag == 2) {
+            data.append("arcticleFlag", '2');
           }
-          if (articleFlag==3){
-            data.append("articleFlag", 'true');
+          if (articleFlag == 3) {
+            data.append("arcticleFlag", '3');
           }
           this.$ajax({
             method: 'post',
             url: this.articleUrl,
             data: data,
-            headers: {'Authorization': token}
+            headers: {'Authorization': this.getToken()}
           }).then((res) => {
             console.log(res);
             if (!res.data.successFlag) {
@@ -186,7 +178,7 @@
               return;
             }
             this.$Message.success(res.data.message);
-            this.$router.push("/admin/home.html");
+            this.$router.push("/admin/artcles.html");
           }).catch((err) => {
             console.log(err);
           });
@@ -216,7 +208,8 @@
       getOneArticle: function () {
         this.$ajax({
           method: 'get',
-          url: this.articleUrl + this.$route.params.articleId
+          url: this.articleUrl + "/" + this.$route.params.articleId,
+          headers: {'Authorization': this.getToken()}
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.object.message);
@@ -235,6 +228,7 @@
           this.$ajax({
             method: 'get',
             url: this.article.content,
+            headers: {'Authorization': this.getToken()}
           }).then((res) => {
             this.value = res.data;
           }).catch((err) => {
@@ -252,7 +246,7 @@
           url: this.fileArticleUrl,
           method: 'post',
           data: formdata,
-          headers: {'Content-Type': 'multipart/form-data'},
+          headers: {'Content-Type': 'multipart/form-data', 'Authorization': this.getToken()},
         }).then((res) => {
           if (!res.data.successFlag) {
             this.$Message.error(res.data.message);
@@ -263,15 +257,16 @@
         })
       },
       $imgDel: function (fileName) {
+        alert(fileName)
         let fileNameTemp = fileName[1].toString().substr(fileName[1].lastIndexOf("/") + 1);
         let delFlag = this.$refs.editor.$imgDelByFilename(fileName[0].name.toString());
         alert(delFlag)
       },
-      saveDraft:function () {
-
+      saveDraft: function () {
+        this.saveFile(2);
       },
-      publish:function () {
-
+      publish: function () {
+        this.saveFile(3);
       }
     },
     watch: {
@@ -291,7 +286,6 @@
       this.user = this.getUser()
       this.articleType();
       if (this.$route.params.articleId != undefined) {
-        alert("mount")
         this.getOneArticle();
       }
       //然后判断是否是存在文章ID，若存在，发送倒台文章ID获取文章信息，填入相应位置，

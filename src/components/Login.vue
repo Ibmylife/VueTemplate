@@ -69,9 +69,11 @@
           let tokenHead = object.tokenHead;
           let token = object.token;
           let userName = object.userName;
+          let id = object.id;
           sessionStorage.setItem('tokenHead', tokenHead);
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('userName', userName);
+          sessionStorage.setItem('id', id);
           this.$router.push("/admin/home.html");
         }).catch((err) => {
           console.log(err);

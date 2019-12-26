@@ -14,21 +14,23 @@
 
 <script>
   import Global from '../Global'
+
   export default {
     name: "SidebarTime",
     mounted() {
-      var data = {};
+      // var data = {};
       var url = this.articlesUrl;
-      data['pageSize'] = this.pageSize;
-      data['pageNum'] = this.pageNum;
-      data['order'] = 'desc';
-      data['properties'] = 'createTime'
-      this.$ajax.get(url, {params: this.$qs.parse(data)}).then((response) => {
+      // data['pageSize'] = this.pageSize;
+      // data['pageNum'] = this.pageNum;
+      // data['order'] = 'desc';
+      // data['properties'] = 'createTime'
+      // this.$ajax.get(url, {params: this.$qs.parse(data)}).then((response) => {
+      this.$ajax.get(url).then((response) => {
         if (!response.data.successFlag) {
           this.$Message.info(response.data.message)
         }
         let contents = response.data.object.content;
-        this.articles={};
+        this.articles = {};
         this.articles = contents;
       }).catch((error) => {
         console.log(error)
@@ -39,7 +41,7 @@
         pageSize: Global.siderbarTimePageSize,
         pageNum: Global.siderbarTimePageNum,
         articles: {},
-        articlesUrl: 'http://www.niejiahao.cn:8080/frontend/artcles',
+        articlesUrl: 'http://www.niejiahao.cn:8080/frontend/artcles/time',
       }
     },
     methods: {

@@ -63,10 +63,10 @@
               <router-view name="sidebarRank" v-on:toArticleRank="toArticleRank"></router-view>
             </Row>
             <br/>
-            <Row>
-              <router-view name="sidebarTime" v-on:toArticleTime="toArticleTime"></router-view>
-            </Row>
-            <br/>
+<!--            <Row>-->
+<!--              <router-view name="sidebarTime" v-on:toArticleTime="toArticleTime"></router-view>-->
+<!--            </Row>-->
+<!--            <br/>-->
             <Row>
               <router-view name="sidebarType" v-on:toArticleType="toArticleType"></router-view>
             </Row>
@@ -136,7 +136,6 @@
         })
       },
       toArticleTime: function (time) {
-        console.log(this.$router);
         this.$router.push({
           path: '/blogtime/' + time + '.html',
         })
